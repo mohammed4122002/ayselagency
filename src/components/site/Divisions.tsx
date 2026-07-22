@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { divisionImage } from "@/lib/images";
 import type { Division, Locale } from "@/lib/types";
 import { loc } from "@/lib/types";
 
@@ -22,6 +21,14 @@ const icons: Record<string, LucideIcon> = {
   palette: Palette,
   megaphone: Megaphone,
   brain: Brain,
+};
+
+// each division gets a distinct gradient wash over the navy base
+const gradients: Record<string, string> = {
+  tech: "from-[#0a2440] via-[#123a66] to-[#0d2c4f]",
+  media: "from-[#0d2c4f] via-[#1b3a5c] to-[#0a2440]",
+  marketing: "from-[#0a2440] via-[#1b4a80] to-[#0d2c4f]",
+  ai: "from-[#0d2c4f] via-[#123a66] to-[#081e38]",
 };
 
 export default function Divisions({ divisions }: { divisions: Division[] }) {
@@ -37,6 +44,7 @@ export default function Divisions({ divisions }: { divisions: Division[] }) {
         <div className="grid gap-8 md:grid-cols-2">
           {divisions.map((d, i) => {
             const Icon = icons[d.icon] ?? Code2;
+            const grad = gradients[d.slug] ?? gradients.tech;
             return (
               <motion.article
                 key={d.id}
@@ -44,30 +52,48 @@ export default function Divisions({ divisions }: { divisions: Division[] }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, delay: (i % 2) * 0.12, ease: [0.21, 0.65, 0.36, 1] }}
-                className="card group overflow-hidden"
+                className="card group relative overflow-hidden"
               >
-                {/* photo header */}
-                <div className="img-frame relative h-56">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={divisionImage(d.slug)}
-                    alt={`${loc(d, "name", locale)} — ${loc(d, "tagline", locale)}`}
-                    loading="lazy"
-                    className="card-img"
+                {/* bespoke navy header — no stock photography */}
+                <div
+                  className={`relative h-44 overflow-hidden bg-gradient-to-br ${grad}`}
+                >
+                  {/* diagonal brand texture */}
+                  <div
+                    className="absolute inset-0 opacity-70"
+                    style={{
+                      backgroundImage:
+                        "repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0 1.5px, transparent 1.5px 46px)",
+                    }}
                   />
-                  <div className="absolute inset-0 z-[5] bg-gradient-to-t from-navy-950/85 via-navy-900/25 to-transparent" />
-                  {/* floating icon over the photo */}
-                  <span className="icon-badge absolute -bottom-0 z-10 m-5 h-14 w-14 !rounded-xl border-4 border-white/90 shadow-lg ltr:right-0 rtl:left-0">
-                    <Icon size={24} />
+                  {/* soft gold glow */}
+                  <div className="absolute -top-16 h-40 w-40 rounded-full bg-gold-500/20 blur-3xl ltr:-right-10 rtl:-left-10 transition-all duration-700 group-hover:bg-gold-500/30" />
+                  {/* large watermark icon */}
+                  <Icon
+                    className="pointer-events-none absolute -bottom-6 text-white/[0.07] transition-transform duration-700 group-hover:scale-110 ltr:-left-4 rtl:-right-4"
+                    size={190}
+                    strokeWidth={1}
+                  />
+
+                  {/* index number */}
+                  <span className="absolute top-5 text-sm font-extrabold tracking-widest text-gold-300/70 ltr:left-6 rtl:right-6">
+                    0{i + 1}
                   </span>
-                  <span className="absolute bottom-4 start-5 z-10 text-white">
-                    <span className="block text-xl font-extrabold drop-shadow" dir="ltr">
-                      {loc(d, "name", locale)}
+
+                  {/* icon badge + titles */}
+                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
+                    <div>
+                      <span className="block text-2xl font-extrabold text-white drop-shadow" dir="ltr">
+                        {loc(d, "name", locale)}
+                      </span>
+                      <span className="mt-1 block text-sm font-bold text-gold-300">
+                        {loc(d, "tagline", locale)}
+                      </span>
+                    </div>
+                    <span className="icon-badge h-16 w-16 shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
+                      <Icon size={28} />
                     </span>
-                    <span className="mt-0.5 block text-sm font-bold text-gold-300 drop-shadow">
-                      {loc(d, "tagline", locale)}
-                    </span>
-                  </span>
+                  </div>
                 </div>
 
                 <div className="p-7">
@@ -75,9 +101,9 @@ export default function Divisions({ divisions }: { divisions: Division[] }) {
                     {loc(d, "description", locale)}
                   </p>
 
-                  <ul className="space-y-2.5">
+                  <ul className="grid gap-2.5 sm:grid-cols-2">
                     {d.services?.map((s) => (
-                      <li key={s.id} className="flex items-center gap-2.5 text-[15px] font-medium text-ink/85">
+                      <li key={s.id} className="flex items-center gap-2.5 text-[14px] font-medium text-ink/85">
                         <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold-100 text-gold-600 ring-1 ring-gold-300">
                           <Check size={12} strokeWidth={3} />
                         </span>
@@ -88,14 +114,15 @@ export default function Divisions({ divisions }: { divisions: Division[] }) {
 
                   <a
                     href="#contact"
-                    className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-gold-600 transition-colors hover:text-gold-700"
+                    className="mt-7 inline-flex items-center gap-1.5 rounded-full bg-navy-900 px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:bg-gold-500 hover:shadow-lg hover:shadow-gold-500/30"
                   >
                     {t("explore")} {loc(d, "name", locale)}
-                    <Arrow size={15} className="transition-transform duration-300 group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
+                    <Arrow
+                      size={15}
+                      className="transition-transform duration-300 group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1"
+                    />
                   </a>
                 </div>
-
-                <span className="absolute inset-x-0 bottom-0 h-[3px] origin-center scale-x-0 bg-gradient-to-r from-gold-300 via-gold-500 to-gold-300 transition-transform duration-500 group-hover:scale-x-100" />
               </motion.article>
             );
           })}
