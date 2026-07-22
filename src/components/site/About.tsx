@@ -59,7 +59,9 @@ export default function About({ projects = [] }: { projects?: Project[] }) {
                 <span className="text-sm font-bold text-white">
                   {locale === "ar" ? "نماذج من أعمالنا" : "From our work"}
                 </span>
-                <span className="text-xs font-semibold text-gold-300">Aysel Agency</span>
+                <span className="text-xs font-semibold text-gold-300">
+                  {locale === "ar" ? "وكالة أيسل" : "Aysel Agency"}
+                </span>
               </div>
             </div>
 

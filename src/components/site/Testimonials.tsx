@@ -58,7 +58,7 @@ export default function Testimonials({ items }: { items: Testimonial[] }) {
                     className="h-14 w-14 rounded-full border-2 border-gold-300 object-cover shadow-md"
                   />
                 ) : (
-                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-navy-800 text-lg font-extrabold text-gold-300">
+                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-navy-700 to-navy-900 text-lg font-extrabold text-gold-300 shadow-md ring-2 ring-gold-300">
                     {loc(current, "name", locale).charAt(0)}
                   </span>
                 )}

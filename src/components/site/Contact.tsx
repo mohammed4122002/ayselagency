@@ -12,13 +12,13 @@ import {
   MessageSquareText,
   Phone,
   Send,
+  Sparkles,
   User,
   Wrench,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { IMAGES } from "@/lib/images";
 import { getSupabaseBrowser } from "@/lib/supabase/client";
 import type { Division, Locale, SiteSettings } from "@/lib/types";
 import { loc } from "@/lib/types";
@@ -129,35 +129,27 @@ export default function Contact({
 
   return (
     <>
-      {/* CTA band — city photo with navy overlay */}
-      <section className="relative overflow-hidden py-16 sm:py-24">
-        <div className="absolute inset-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={IMAGES.ctaBg}
-            alt={locale === "ar" ? "مدينة ليلاً" : "City at night"}
-            loading="lazy"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-navy-900/92 via-navy-800/88 to-navy-950/94" />
-          <div
-            className="absolute inset-0 opacity-60"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0 1.5px, transparent 1.5px 80px)",
-            }}
-          />
-        </div>
+      {/* CTA band — bespoke navy design, no stock photo */}
+      <section className="navy-band relative overflow-hidden py-16 sm:py-24">
+        {/* decorative gold glows */}
+        <div className="orb-glow pointer-events-none absolute -top-20 h-64 w-64 rounded-full bg-gold-500/15 blur-3xl ltr:-left-16 rtl:-right-16" />
+        <div className="orb-glow pointer-events-none absolute -bottom-24 h-72 w-72 rounded-full bg-navy-500/25 blur-3xl ltr:-right-16 rtl:-left-16" />
         <div className="relative z-10 mx-auto max-w-3xl px-4 text-center sm:px-6">
           <Reveal>
+            <span className="section-label-light mb-5 inline-flex">
+              <Sparkles size={14} />
+              {tc("badge")}
+            </span>
+          </Reveal>
+          <Reveal delay={0.08}>
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">{tc("title")}</h2>
           </Reveal>
-          <Reveal delay={0.12}>
+          <Reveal delay={0.16}>
             <p className="mx-auto mt-4 max-w-xl leading-relaxed text-white/70">
               {tc("subtitle")}
             </p>
           </Reveal>
-          <Reveal delay={0.22}>
+          <Reveal delay={0.24}>
             <a href="#contact" className="gold-btn mt-8 px-9 py-4 text-base">
               {tc("button")}
               <span className="btn-arrow rtl:-scale-x-100">→</span>
