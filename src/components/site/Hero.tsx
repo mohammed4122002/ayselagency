@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   animate,
   motion,
@@ -8,9 +8,8 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { Sparkles } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { IMAGES } from "@/lib/images";
+import { HERO_VIDEO_SOURCES, IMAGES } from "@/lib/images";
 import type { StatsSettings } from "@/lib/types";
 
 const container = {
@@ -55,6 +54,7 @@ function CountUp({ value, suffix = "+" }: { value: number; suffix?: string }) {
 export default function Hero({ stats }: { stats: StatsSettings }) {
   const t = useTranslations("hero");
   const locale = useLocale();
+  const [videoFailed, setVideoFailed] = useState(false);
 
   const trust = [
     { value: stats.projects, suffix: "+", label: t("stats.projects") },
@@ -64,11 +64,11 @@ export default function Hero({ stats }: { stats: StatsSettings }) {
 
   return (
     <section id="top" className="relative flex min-h-svh items-center overflow-hidden">
-      {/* cinematic background photo + layered navy overlay */}
+      {/* cinematic background: video with photo fallback + layered navy overlay */}
       <div className="absolute inset-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={IMAGES.heroBg}
+          src={IMAGES.heroPoster}
           alt={
             locale === "ar"
               ? "فريق عمل Aysel Agency أثناء تطوير مشروع رقمي"
@@ -77,9 +77,23 @@ export default function Hero({ stats }: { stats: StatsSettings }) {
           className="h-full w-full object-cover"
           fetchPriority="high"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-950/85 via-navy-900/80 to-navy-950/95" />
+        {!videoFailed && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            onError={() => setVideoFailed(true)}
+            className="absolute inset-0 h-full w-full object-cover"
+          >
+            {HERO_VIDEO_SOURCES.map((src) => (
+              <source key={src} src={src} type="video/mp4" />
+            ))}
+          </video>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-950/85 via-navy-900/75 to-navy-950/95" />
         <div className="absolute inset-0 bg-gradient-to-r from-navy-950/70 via-transparent to-navy-950/70" />
-        {/* subtle diagonal texture */}
         <div
           className="absolute inset-0 opacity-60"
           style={{
@@ -87,6 +101,8 @@ export default function Hero({ stats }: { stats: StatsSettings }) {
               "repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0 1.5px, transparent 1.5px 80px)",
           }}
         />
+        {/* bottom fade into the page */}
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-navy-950 to-transparent" />
       </div>
 
       <motion.div
@@ -96,25 +112,25 @@ export default function Hero({ stats }: { stats: StatsSettings }) {
         className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-24 pt-32 sm:px-6"
       >
         <div className="mx-auto max-w-3xl text-center">
-          <motion.div variants={item}>
-            <span className="section-label-light backdrop-blur-sm">
-              <Sparkles size={14} />
-              {t("badge")}
-            </span>
-          </motion.div>
-
           <motion.h1
             variants={item}
-            className="mt-7 text-[2.6rem] font-bold leading-[1.25] tracking-tight text-white sm:text-[3.4rem] lg:text-[4rem]"
+            className="text-[2.6rem] font-bold leading-[1.22] tracking-tight text-white sm:text-[3.4rem] lg:text-[4rem]"
           >
             {t("title1")}
             <br />
             <span className="text-gradient-gold font-extrabold">{t("title2")}</span>
           </motion.h1>
 
+          {/* gold flourish */}
+          <motion.div variants={item} className="mt-6 flex items-center justify-center gap-2">
+            <span className="h-[3px] w-10 rounded-full bg-gradient-to-r from-transparent to-gold-500" />
+            <span className="h-2 w-2 rotate-45 bg-gold-400" />
+            <span className="h-[3px] w-10 rounded-full bg-gradient-to-l from-transparent to-gold-500" />
+          </motion.div>
+
           <motion.p
             variants={item}
-            className="mx-auto mt-7 max-w-2xl text-[17px] leading-relaxed text-white/75 sm:text-lg"
+            className="mx-auto mt-7 max-w-2xl text-[17px] leading-relaxed text-white/80 sm:text-lg"
           >
             {t("subtitle")}
           </motion.p>
@@ -135,7 +151,7 @@ export default function Hero({ stats }: { stats: StatsSettings }) {
           {/* trust indicators with count-up */}
           <motion.div
             variants={item}
-            className="mx-auto mt-14 grid max-w-xl grid-cols-3 divide-x divide-white/15 rounded-2xl border border-white/12 bg-white/[0.05] py-6 backdrop-blur-md rtl:divide-x-reverse"
+            className="mx-auto mt-14 grid max-w-xl grid-cols-3 divide-x divide-white/15 rounded-2xl border border-white/12 bg-white/[0.06] py-6 backdrop-blur-md rtl:divide-x-reverse"
           >
             {trust.map((s, i) => (
               <div key={i} className="flex flex-col items-center gap-1.5 px-2">

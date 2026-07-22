@@ -42,7 +42,7 @@ export default function Stats({ stats }: { stats: StatsSettings }) {
   ];
 
   return (
-    <section className="navy-band py-16 sm:py-20">
+    <section className="navy-band border-y-2 border-gold-500/40 py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-2 gap-y-12 lg:grid-cols-4">
           {items.map((s, i) => (

@@ -47,7 +47,7 @@ export default function Divisions({ divisions }: { divisions: Division[] }) {
                 className="card group overflow-hidden"
               >
                 {/* photo header */}
-                <div className="img-frame relative h-52">
+                <div className="img-frame relative h-56">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={divisionImage(d.slug)}
@@ -55,6 +55,7 @@ export default function Divisions({ divisions }: { divisions: Division[] }) {
                     loading="lazy"
                     className="card-img"
                   />
+                  <div className="absolute inset-0 z-[5] bg-gradient-to-t from-navy-950/85 via-navy-900/25 to-transparent" />
                   {/* floating icon over the photo */}
                   <span className="icon-badge absolute -bottom-0 z-10 m-5 h-14 w-14 !rounded-xl border-4 border-white/90 shadow-lg ltr:right-0 rtl:left-0">
                     <Icon size={24} />

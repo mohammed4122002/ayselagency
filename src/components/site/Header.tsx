@@ -57,7 +57,7 @@ export default function Header() {
             <a
               key={s.id}
               href={s.id === "home" ? "#top" : `#${s.id}`}
-              className="rounded-full px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+              className="relative rounded-full px-4 py-2 text-sm font-medium text-white/80 transition-colors after:absolute after:inset-x-4 after:bottom-1 after:h-[2px] after:origin-center after:scale-x-0 after:rounded-full after:bg-gold-400 after:transition-transform after:duration-300 hover:text-white hover:after:scale-x-100"
             >
               {t(s.key)}
             </a>

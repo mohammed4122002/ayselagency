@@ -1,23 +1,31 @@
-// Centralized photography library (Unsplash direct links, corporate mood
-// matching the navy/gold identity). Sizes are tuned per usage.
+// Centralized media library (Unsplash photography + stock video, corporate
+// mood matching the navy/gold identity). Sizes tuned per usage.
 
 const u = (id: string, w: number) =>
   `https://images.unsplash.com/photo-${id}?w=${w}&q=80&auto=format&fit=crop`;
 
+// Cinematic hero background video (night city / tech mood).
+// The browser tries sources in order; if all fail, the poster photo stays.
+export const HERO_VIDEO_SOURCES = [
+  "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
+  "https://videos.pexels.com/video-files/3129671/3129671-hd_1920_1080_30fps.mp4",
+  "https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-a-city-11748-large.mp4",
+];
+
 export const IMAGES = {
-  heroBg: u("1519389950473-47ba0277781c", 2000),
+  heroPoster: u("1519389950473-47ba0277781c", 2000),
   ctaBg: u("1477959858617-67f85cf4f1df", 1800),
-  aboutMain: u("1522071820081-009f0129c71c", 1200),
+  aboutMain: u("1600880292203-757bb62b4baf", 1200),
   aboutSmall: u("1556761175-b413da4baf72", 800),
   divisions: {
     tech: u("1498050108023-c5249f4df085", 1200),
     media: u("1561070791-2526d30994b5", 1200),
     marketing: u("1460925895917-afdab827c52f", 1200),
-    ai: u("1518770660439-4636190af475", 1200),
+    ai: u("1677442136019-21780ecad995", 1200),
   } as Record<string, string>,
   portfolio: {
     branding: u("1558655146-9f40138edfeb", 1200),
-    social: u("1511707171634-5f897ff02aa9", 1200),
+    social: u("1611162617213-7d7a39e9b1d7", 1200),
     web: u("1467232004584-a241de8bcf5d", 1200),
     motion: u("1574717024653-61fd2cf4d44d", 1200),
     ai: u("1485827404703-89b55fcc595e", 1200),

@@ -23,7 +23,7 @@ export default function Testimonials({ items }: { items: Testimonial[] }) {
   const current = items[index];
 
   return (
-    <section className="bg-white py-16 sm:py-24">
+    <section className="bg-soft py-16 sm:py-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <SectionHeading label={t("label")} title={t("title")} />
 

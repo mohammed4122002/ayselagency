@@ -80,6 +80,15 @@ export default function Portfolio({
                     loading="lazy"
                     className="card-img rounded-lg"
                   />
+                  {/* hover overlay */}
+                  <div className="absolute inset-0 z-10 flex items-end rounded-lg bg-gradient-to-t from-navy-950/85 via-navy-900/30 to-transparent p-5 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                    <span className="flex items-center gap-2 text-sm font-bold text-white">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-500 text-white">
+                        <Arrow size={16} />
+                      </span>
+                      {t("details")}
+                    </span>
+                  </div>
                   <span className="absolute top-3 start-3 z-10 rounded-full bg-navy-800/90 px-3 py-1 text-xs font-bold text-white backdrop-blur">
                     {t(`categories.${p.category}`)}
                   </span>
