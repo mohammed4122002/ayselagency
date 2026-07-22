@@ -94,7 +94,25 @@
     "related": "Similar Projects",
     "ctaButton": "Request a Similar Project",
     "scrollHint": "Scroll to explore the full design",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "meta": {
+      "category": "Category",
+      "tools": "Design Tools",
+      "toolsValue": "Figma · Illustrator · Photoshop",
+      "delivery": "Timeline",
+      "deliveryValue": "Based on scope",
+      "quality": "Quality",
+      "qualityValue": "World-class"
+    },
+    "highlightsTitle": "Project Highlights",
+    "highlights": {
+      "h1": { "title": "Seamless UX", "desc": "Thoughtful interfaces that make navigation intuitive and fast for every user." },
+      "h2": { "title": "Complete Visual Identity", "desc": "A unified system of colors, type and elements reflecting the brand's personality." },
+      "h3": { "title": "Responsive Design", "desc": "Works flawlessly across every size, from mobile to large screens." },
+      "h4": { "title": "Dev-ready", "desc": "Organized, handoff-ready files for the development team." }
+    },
+    "ctaBannerTitle": "Like this project?",
+    "ctaBannerText": "We turn your idea into a complete digital product with the same level of craft. Get in touch today."
   },
   "process": {
     "label": "Our Process",

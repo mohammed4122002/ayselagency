@@ -1,5 +1,15 @@
 import { notFound } from "next/navigation";
-import { ArrowUpRight, Check, FolderKanban, Tag } from "lucide-react";
+import {
+  ArrowUpRight,
+  Check,
+  Clock,
+  FolderKanban,
+  Layers,
+  PenTool,
+  Smartphone,
+  Sparkles,
+  Tag,
+} from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import Header from "@/components/site/Header";
@@ -78,18 +88,75 @@ export default async function ProjectPage({
               />
             </Reveal>
 
+            {/* project meta bar */}
+            <Reveal delay={0.1} className="mt-10">
+              <div className="grid grid-cols-2 gap-4 rounded-2xl border border-line bg-soft p-5 lg:grid-cols-4">
+                {[
+                  { icon: Tag, label: t("meta.category"), value: tp(`categories.${project.category}`) },
+                  { icon: PenTool, label: t("meta.tools"), value: t("meta.toolsValue"), ltr: true },
+                  { icon: Clock, label: t("meta.delivery"), value: t("meta.deliveryValue") },
+                  { icon: Sparkles, label: t("meta.quality"), value: t("meta.qualityValue") },
+                ].map((m, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <span className="icon-badge-navy flex h-11 w-11 shrink-0">
+                      <m.icon size={19} />
+                    </span>
+                    <div className="min-w-0">
+                      <div className="text-xs text-muted">{m.label}</div>
+                      <div
+                        className="truncate text-sm font-bold text-ink"
+                        {...(m.ltr ? { dir: "ltr" } : {})}
+                      >
+                        {m.value}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
             <div className="mt-14 grid gap-10 lg:grid-cols-3">
               <div className="lg:col-span-2">
                 <Reveal>
-                  <h2 className="mb-5 text-2xl font-bold text-ink">{t("overview")}</h2>
+                  <span className="section-label mb-4 inline-flex">{t("overview")}</span>
                 </Reveal>
                 <Reveal delay={0.1}>
                   <p className="text-[17px] leading-relaxed text-body sm:text-lg">
                     {loc(project, "description", locale)}
                   </p>
                 </Reveal>
+
+                {/* highlights grid — fills the space with real value */}
+                <Reveal delay={0.15}>
+                  <h3 className="mb-6 mt-12 text-xl font-bold text-ink">
+                    {t("highlightsTitle")}
+                  </h3>
+                </Reveal>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {[
+                    { icon: Smartphone, key: "h1" },
+                    { icon: Sparkles, key: "h2" },
+                    { icon: Layers, key: "h3" },
+                    { icon: PenTool, key: "h4" },
+                  ].map((h, i) => (
+                    <Reveal key={h.key} delay={0.2 + i * 0.08}>
+                      <div className="group h-full rounded-2xl border border-line bg-white p-6 transition-all duration-300 hover:border-gold-300 hover:shadow-lg hover:shadow-navy-900/5">
+                        <span className="icon-badge mb-4 flex h-11 w-11 transition-transform duration-300 group-hover:-rotate-6">
+                          <h.icon size={19} />
+                        </span>
+                        <h4 className="mb-1.5 font-bold text-ink">
+                          {t(`highlights.${h.key}.title`)}
+                        </h4>
+                        <p className="text-sm leading-relaxed text-body">
+                          {t(`highlights.${h.key}.desc`)}
+                        </p>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+
                 {project.external_link ? (
-                  <Reveal delay={0.2}>
+                  <Reveal delay={0.3}>
                     <a
                       href={project.external_link}
                       target="_blank"
@@ -103,25 +170,38 @@ export default async function ProjectPage({
                 ) : null}
               </div>
 
+              {/* sticky sidebar */}
               <Reveal delay={0.15}>
-                <aside className="card p-7">
-                  <span className="icon-badge mb-5 h-12 w-12">
-                    <FolderKanban size={22} />
-                  </span>
-                  <h3 className="mb-4 font-bold text-ink">{t("deliverables")}</h3>
-                  <ul className="space-y-3">
-                    {(t.raw("points") as string[]).map((point, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-sm text-body">
-                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold-100 text-gold-600 ring-1 ring-gold-300">
-                          <Check size={12} strokeWidth={3} />
-                        </span>
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href="/#contact" className="gold-btn mt-7 w-full px-6 py-3.5 text-sm">
-                    {t("ctaButton")}
-                  </Link>
+                <aside className="lg:sticky lg:top-24">
+                  <div className="card p-7">
+                    <span className="icon-badge mb-5 h-12 w-12">
+                      <FolderKanban size={22} />
+                    </span>
+                    <h3 className="mb-4 font-bold text-ink">{t("deliverables")}</h3>
+                    <ul className="space-y-3">
+                      {(t.raw("points") as string[]).map((point, i) => (
+                        <li key={i} className="flex items-start gap-2.5 text-sm text-body">
+                          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold-100 text-gold-600 ring-1 ring-gold-300">
+                            <Check size={12} strokeWidth={3} />
+                          </span>
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* mini CTA card */}
+                  <div className="navy-band mt-6 rounded-2xl p-7 text-center">
+                    <h3 className="text-lg font-extrabold text-white">
+                      {t("ctaBannerTitle")}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-white/70">
+                      {t("ctaBannerText")}
+                    </p>
+                    <Link href="/#contact" className="gold-btn mt-5 w-full px-6 py-3.5 text-sm">
+                      {t("ctaButton")}
+                    </Link>
+                  </div>
                 </aside>
               </Reveal>
             </div>
