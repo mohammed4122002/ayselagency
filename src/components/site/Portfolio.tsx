@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { portfolioImage } from "@/lib/images";
 import type { Locale, Project } from "@/lib/types";
@@ -70,8 +71,14 @@ export default function Portfolio({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.94 }}
                 transition={{ duration: 0.45, ease: [0.21, 0.65, 0.36, 1] }}
-                className="card group overflow-hidden"
+                className="card group relative overflow-hidden"
               >
+                {/* full-card link to the project page */}
+                <Link
+                  href={`/projects/${p.id}`}
+                  aria-label={loc(p, "title", locale)}
+                  className="absolute inset-0 z-20"
+                />
                 <div className="img-frame relative m-4 aspect-[4/3] rounded-lg bg-soft">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img

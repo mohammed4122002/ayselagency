@@ -36,11 +36,11 @@ export default async function Footer({
           <ul className="space-y-3 text-sm text-white/65">
             {(
               [
-                ["#divisions", tn("divisions")],
-                ["#about", tn("about")],
-                ["#portfolio", tn("portfolio")],
-                ["#process", tn("process")],
-                ["#contact", tn("contact")],
+                [`/${locale}#divisions`, tn("divisions")],
+                [`/${locale}#about`, tn("about")],
+                [`/${locale}#portfolio`, tn("portfolio")],
+                [`/${locale}#process`, tn("process")],
+                [`/${locale}#contact`, tn("contact")],
               ] as const
             ).map(([href, label]) => (
               <li key={href}>
@@ -57,7 +57,7 @@ export default async function Footer({
           <ul className="space-y-3 text-sm text-white/65">
             {divisions.map((d) => (
               <li key={d.id}>
-                <a href="#divisions" className="transition-colors hover:text-gold-300">
+                <a href={`/${locale}#divisions`} className="transition-colors hover:text-gold-300">
                   {loc(d, "name", locale)} — {loc(d, "tagline", locale)}
                 </a>
               </li>

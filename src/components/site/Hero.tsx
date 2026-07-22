@@ -74,7 +74,7 @@ export default function Hero({ stats }: { stats: StatsSettings }) {
               ? "فريق عمل Aysel Agency أثناء تطوير مشروع رقمي"
               : "Aysel Agency team working on a digital project"
           }
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover brightness-[0.5]"
           fetchPriority="high"
         />
         {!videoFailed && (
@@ -85,15 +85,15 @@ export default function Hero({ stats }: { stats: StatsSettings }) {
             playsInline
             preload="metadata"
             onError={() => setVideoFailed(true)}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover brightness-[0.5] saturate-[0.85]"
           >
             {HERO_VIDEO_SOURCES.map((src) => (
               <source key={src} src={src} type="video/mp4" />
             ))}
           </video>
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-950/85 via-navy-900/75 to-navy-950/95" />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-950/70 via-transparent to-navy-950/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-950/90 via-navy-950/70 to-navy-950/95" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950/75 via-transparent to-navy-950/75" />
         <div
           className="absolute inset-0 opacity-60"
           style={{

@@ -78,6 +78,20 @@
     "viewBehance": "See more on Behance",
     "details": "View Details"
   },
+  "project": {
+    "back": "Back to Our Work",
+    "overview": "Project Overview",
+    "visit": "View Live Project",
+    "deliverables": "What We Delivered",
+    "points": [
+      "In-depth study of the client's needs",
+      "Professional execution at the highest standards",
+      "On-time delivery",
+      "Support and follow-up after handover"
+    ],
+    "related": "Similar Projects",
+    "ctaButton": "Request a Similar Project"
+  },
   "process": {
     "label": "Our Process",
     "title": "How We Work",

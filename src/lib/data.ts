@@ -46,6 +46,21 @@ export async function getProjects(): Promise<Project[]> {
   }
 }
 
+export async function getProject(id: string): Promise<Project | null> {
+  try {
+    const { data, error } = await db
+      .from("projects")
+      .select("*")
+      .eq("id", id)
+      .eq("published", true)
+      .maybeSingle();
+    if (error || !data) throw error ?? new Error("not found");
+    return data;
+  } catch {
+    return fallbackProjects.find((p) => p.id === id) ?? null;
+  }
+}
+
 export async function getTestimonials(): Promise<Testimonial[]> {
   try {
     const { data, error } = await db
