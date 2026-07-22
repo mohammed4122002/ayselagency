@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Eye } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -11,6 +11,79 @@ import type { Locale, Project } from "@/lib/types";
 import { loc } from "@/lib/types";
 
 const categoryOrder = ["apps", "web", "ecommerce", "ai", "branding", "social", "motion"];
+
+function ProjectCard({
+  p,
+  wide,
+  locale,
+  t,
+}: {
+  p: Project;
+  wide: boolean;
+  locale: Locale;
+  t: (k: string) => string;
+}) {
+  const Arrow = locale === "ar" ? ArrowLeft : ArrowRight;
+  return (
+    <motion.article
+      layout
+      initial={{ opacity: 0, scale: 0.94 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.94 }}
+      transition={{ duration: 0.45, ease: [0.21, 0.65, 0.36, 1] }}
+      className={`card group relative flex flex-col overflow-hidden ${
+        wide ? "sm:col-span-2 lg:col-span-2" : ""
+      }`}
+    >
+      <Link
+        href={`/projects/${p.id}`}
+        aria-label={loc(p, "title", locale)}
+        className="absolute inset-0 z-30"
+      />
+
+      {/* board window that pans on hover */}
+      <div
+        className={`img-frame relative m-3 overflow-hidden rounded-xl bg-soft ${
+          wide ? "h-72 sm:h-80" : "h-64"
+        }`}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={portfolioImage(p.category, p.image_url)}
+          alt={loc(p, "title", locale)}
+          loading="lazy"
+          className="pan-img"
+        />
+        {/* category chip */}
+        <span className="absolute top-3 start-3 z-10 rounded-full bg-navy-900/85 px-3 py-1 text-xs font-bold text-white backdrop-blur">
+          {t(`categories.${p.category}`)}
+        </span>
+        {/* view hint appears on hover */}
+        <span className="absolute bottom-3 end-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-gold-500 text-white opacity-0 shadow-lg transition-all duration-500 group-hover:opacity-100">
+          <Eye size={18} />
+        </span>
+        {/* soft edge fade at the bottom of the strip */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-16 bg-gradient-to-t from-white/70 to-transparent" />
+      </div>
+
+      <div className="flex flex-1 flex-col px-5 pb-5 pt-1">
+        <h3 className="mb-2 text-lg font-extrabold text-ink transition-colors group-hover:text-gold-600">
+          {loc(p, "title", locale)}
+        </h3>
+        <p className="mb-4 line-clamp-2 flex-1 text-sm leading-relaxed text-body">
+          {loc(p, "description", locale)}
+        </p>
+        <span className="inline-flex items-center gap-1.5 text-sm font-bold text-gold-600">
+          {t("details")}
+          <Arrow
+            size={15}
+            className="btn-arrow transition-transform duration-300 group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1"
+          />
+        </span>
+      </div>
+    </motion.article>
+  );
+}
 
 export default function Portfolio({
   projects,
@@ -22,9 +95,7 @@ export default function Portfolio({
   const t = useTranslations("portfolio");
   const locale = useLocale() as Locale;
   const [active, setActive] = useState("all");
-  const Arrow = locale === "ar" ? ArrowLeft : ArrowRight;
 
-  // only show categories that actually have projects
   const categories = useMemo(() => {
     const present = new Set(projects.map((p) => p.category));
     return ["all", ...categoryOrder.filter((c) => present.has(c))];
@@ -66,59 +137,17 @@ export default function Portfolio({
           ))}
         </div>
 
-        {/* grid */}
+        {/* bento grid: first item wide */}
         <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence mode="popLayout">
-            {filtered.map((p) => (
-              <motion.article
-                layout
+            {filtered.map((p, i) => (
+              <ProjectCard
                 key={p.id}
-                initial={{ opacity: 0, scale: 0.94 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.94 }}
-                transition={{ duration: 0.45, ease: [0.21, 0.65, 0.36, 1] }}
-                className="card group relative overflow-hidden"
-              >
-                {/* full-card link to the project page */}
-                <Link
-                  href={`/projects/${p.id}`}
-                  aria-label={loc(p, "title", locale)}
-                  className="absolute inset-0 z-20"
-                />
-                <div className="img-frame relative m-4 aspect-[4/3] rounded-lg bg-soft">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={portfolioImage(p.category, p.image_url)}
-                    alt={loc(p, "title", locale)}
-                    loading="lazy"
-                    className="card-img rounded-lg !object-top"
-                  />
-                  {/* hover overlay */}
-                  <div className="absolute inset-0 z-10 flex items-end rounded-lg bg-gradient-to-t from-navy-950/85 via-navy-900/30 to-transparent p-5 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    <span className="flex items-center gap-2 text-sm font-bold text-white">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-500 text-white">
-                        <Arrow size={16} />
-                      </span>
-                      {t("details")}
-                    </span>
-                  </div>
-                  <span className="absolute top-3 start-3 z-10 rounded-full bg-navy-800/90 px-3 py-1 text-xs font-bold text-white backdrop-blur">
-                    {t(`categories.${p.category}`)}
-                  </span>
-                </div>
-                <div className="px-6 pb-6 pt-1">
-                  <h3 className="mb-2 text-lg font-extrabold text-ink transition-colors group-hover:text-gold-600">
-                    {loc(p, "title", locale)}
-                  </h3>
-                  <p className="mb-4 text-sm leading-relaxed text-body">
-                    {loc(p, "description", locale)}
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 text-sm font-bold text-gold-600">
-                    {t("details")}
-                    <Arrow size={15} className="transition-transform duration-300 group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
-                  </span>
-                </div>
-              </motion.article>
+                p={p}
+                wide={active === "all" && i === 0}
+                locale={locale}
+                t={t}
+              />
             ))}
           </AnimatePresence>
         </motion.div>

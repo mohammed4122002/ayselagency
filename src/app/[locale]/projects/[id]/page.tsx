@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import WhatsAppFloat from "@/components/site/WhatsAppFloat";
+import BoardViewer from "@/components/site/BoardViewer";
 import Reveal from "@/components/ui/Reveal";
 import { getDivisions, getProject, getProjects, getSettings } from "@/lib/data";
 import { portfolioImage } from "@/lib/images";
@@ -63,21 +64,18 @@ export default async function ProjectPage({
         </section>
 
         {/* main image */}
-        <section className="bg-white pb-16 sm:pb-24">
+        <section className="relative z-10 bg-white pb-16 sm:pb-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <Reveal className="-mt-10">
-              {/* full showcase board at natural height */}
-              <div className="overflow-hidden rounded-2xl border-4 border-white bg-white shadow-2xl shadow-navy-900/20">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={
-                    project.detail_image_url ||
-                    portfolioImage(project.category, project.image_url)
-                  }
-                  alt={loc(project, "title", locale)}
-                  className="h-auto w-full rounded-xl"
-                />
-              </div>
+            <Reveal className="relative z-10 -mt-12">
+              <BoardViewer
+                src={
+                  project.detail_image_url ||
+                  portfolioImage(project.category, project.image_url)
+                }
+                alt={loc(project, "title", locale)}
+                hint={t("scrollHint")}
+                zoomLabel={t("zoom")}
+              />
             </Reveal>
 
             <div className="mt-14 grid gap-10 lg:grid-cols-3">
@@ -143,16 +141,17 @@ export default async function ProjectPage({
                 {related.map((p, i) => (
                   <Reveal key={p.id} delay={i * 0.1}>
                     <Link href={`/projects/${p.id}`} className="card group block overflow-hidden">
-                      <div className="img-frame relative m-4 aspect-[4/3] rounded-lg">
+                      <div className="img-frame relative m-3 h-56 overflow-hidden rounded-xl bg-white">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={portfolioImage(p.category, p.image_url)}
                           alt={loc(p, "title", locale)}
                           loading="lazy"
-                          className="card-img rounded-lg"
+                          className="pan-img"
                         />
+                        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-14 bg-gradient-to-t from-white/70 to-transparent" />
                       </div>
-                      <div className="px-6 pb-6 pt-1">
+                      <div className="px-5 pb-5 pt-1">
                         <h3 className="text-lg font-bold text-ink transition-colors group-hover:text-gold-600">
                           {loc(p, "title", locale)}
                         </h3>

@@ -92,7 +92,9 @@
       "Support and follow-up after handover"
     ],
     "related": "Similar Projects",
-    "ctaButton": "Request a Similar Project"
+    "ctaButton": "Request a Similar Project",
+    "scrollHint": "Scroll to explore the full design",
+    "zoom": "Zoom"
   },
   "process": {
     "label": "Our Process",
