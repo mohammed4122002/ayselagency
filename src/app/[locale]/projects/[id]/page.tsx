@@ -66,12 +66,16 @@ export default async function ProjectPage({
         <section className="bg-white pb-16 sm:pb-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <Reveal className="-mt-10">
-              <div className="img-frame aspect-video rounded-2xl border-4 border-white shadow-2xl shadow-navy-900/20">
+              {/* full showcase board at natural height */}
+              <div className="overflow-hidden rounded-2xl border-4 border-white bg-white shadow-2xl shadow-navy-900/20">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={portfolioImage(project.category, project.image_url)}
+                  src={
+                    project.detail_image_url ||
+                    portfolioImage(project.category, project.image_url)
+                  }
                   alt={loc(project, "title", locale)}
-                  className="rounded-xl"
+                  className="h-auto w-full rounded-xl"
                 />
               </div>
             </Reveal>

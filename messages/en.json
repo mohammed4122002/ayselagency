@@ -69,11 +69,13 @@
     "subtitle": "A selection of our work across design, development, marketing and AI.",
     "all": "All",
     "categories": {
+      "apps": "Mobile Apps",
+      "web": "Web & Platforms",
+      "ecommerce": "E-commerce",
       "branding": "Branding",
       "social": "Social Media",
-      "web": "Web & Apps",
       "motion": "Motion Graphics",
-      "ai": "AI"
+      "ai": "AI & Automation"
     },
     "viewBehance": "See more on Behance",
     "details": "View Details"

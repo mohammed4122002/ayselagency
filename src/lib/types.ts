@@ -30,6 +30,7 @@ export type Project = {
   description_ar: string;
   description_en: string;
   image_url: string;
+  detail_image_url?: string;
   external_link: string;
   sort_order: number;
   featured: boolean;

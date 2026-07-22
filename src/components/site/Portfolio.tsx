@@ -10,7 +10,7 @@ import { portfolioImage } from "@/lib/images";
 import type { Locale, Project } from "@/lib/types";
 import { loc } from "@/lib/types";
 
-const categories = ["all", "branding", "social", "web", "motion", "ai"] as const;
+const categoryOrder = ["apps", "web", "ecommerce", "ai", "branding", "social", "motion"];
 
 export default function Portfolio({
   projects,
@@ -21,8 +21,14 @@ export default function Portfolio({
 }) {
   const t = useTranslations("portfolio");
   const locale = useLocale() as Locale;
-  const [active, setActive] = useState<(typeof categories)[number]>("all");
+  const [active, setActive] = useState("all");
   const Arrow = locale === "ar" ? ArrowLeft : ArrowRight;
+
+  // only show categories that actually have projects
+  const categories = useMemo(() => {
+    const present = new Set(projects.map((p) => p.category));
+    return ["all", ...categoryOrder.filter((c) => present.has(c))];
+  }, [projects]);
 
   const filtered = useMemo(
     () => (active === "all" ? projects : projects.filter((p) => p.category === active)),
@@ -85,7 +91,7 @@ export default function Portfolio({
                     src={portfolioImage(p.category, p.image_url)}
                     alt={loc(p, "title", locale)}
                     loading="lazy"
-                    className="card-img rounded-lg"
+                    className="card-img rounded-lg !object-top"
                   />
                   {/* hover overlay */}
                   <div className="absolute inset-0 z-10 flex items-end rounded-lg bg-gradient-to-t from-navy-950/85 via-navy-900/30 to-transparent p-5 opacity-0 transition-opacity duration-500 group-hover:opacity-100">

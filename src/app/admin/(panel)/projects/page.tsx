@@ -6,19 +6,21 @@ import { ImageIcon, Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
 import { getSupabaseBrowser } from "@/lib/supabase/client";
 import type { Project } from "@/lib/types";
 
-const categories = ["branding", "social", "web", "motion", "ai"];
+const categories = ["apps", "web", "ecommerce", "branding", "social", "motion", "ai"];
 const catLabels: Record<string, string> = {
+  apps: "تطبيقات جوال",
+  web: "مواقع ومنصات",
+  ecommerce: "متاجر إلكترونية",
   branding: "هويات بصرية",
   social: "سوشال ميديا",
-  web: "مواقع وتطبيقات",
   motion: "موشن جرافيك",
-  ai: "ذكاء اصطناعي",
+  ai: "ذكاء اصطناعي وأتمتة",
 };
 
 const empty: Partial<Project> = {
   title_ar: "",
   title_en: "",
-  category: "branding",
+  category: "apps",
   description_ar: "",
   description_en: "",
   image_url: "",

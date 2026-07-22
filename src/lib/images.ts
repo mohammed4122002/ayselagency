@@ -28,6 +28,8 @@ export const IMAGES = {
     branding: u("1558655146-9f40138edfeb", 1200),
     social: u("1611162617213-7d7a39e9b1d7", 1200),
     web: u("1551650975-87deedd944c3", 1200),
+    apps: u("1512941937669-90a1b58e7e9c", 1200),
+    ecommerce: u("1563013544-824ae1b704d3", 1200),
     motion: u("1574717024653-61fd2cf4d44d", 1200),
     ai: u("1485827404703-89b55fcc595e", 1200),
   } as Record<string, string>,
