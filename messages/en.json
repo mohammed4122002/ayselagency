@@ -15,7 +15,18 @@
     "subtitle": "Aysel Group — an integrated ecosystem for your business. Four specialized divisions working in harmony to deliver a complete digital experience: development, design, marketing and AI.",
     "cta": "Start Your Project",
     "cta2": "Explore Our Services",
-    "scroll": "Discover More"
+    "scroll": "Discover More",
+    "stats": {
+      "projects": "Projects Delivered",
+      "clients": "Happy Clients",
+      "years": "Years of Experience"
+    },
+    "tiles": {
+      "tech": { "name": "Aysel Tech", "tagline": "Software Services" },
+      "media": { "name": "Aysel Media", "tagline": "Design & Creativity" },
+      "marketing": { "name": "Aysel Marketing", "tagline": "Digital Marketing" },
+      "ai": { "name": "Aysel AI", "tagline": "AI & Automation" }
+    }
   },
   "divisions": {
     "label": "Our Four Divisions",
@@ -28,10 +39,18 @@
     "title": "Your Digital Growth Partner",
     "p1": "Aysel Agency is a full-service digital agency serving clients worldwide. We bring development, design, marketing and AI together under one roof — so we can be the only partner your brand needs.",
     "p2": "We believe digital success is never built on a single service, but on an integrated system working in harmony. That is why we built four divisions covering your journey from the first line of code to the last ad campaign.",
+    "missionTitle": "Our Mission",
+    "mission": "To be the trusted partner that turns our clients' ideas into successful digital products — through one ecosystem combining development, design, marketing and AI at the highest standards of quality and professionalism.",
+    "values": {
+      "v1": "Professional Execution",
+      "v2": "Full Transparency",
+      "v3": "On-time Delivery",
+      "v4": "Quality Beyond Expectations"
+    },
     "features": {
-      "quality": { "title": "Uncompromising Quality", "desc": "World-class standards in every delivery, from design to code" },
-      "speed": { "title": "Fast Execution", "desc": "Full commitment to deadlines without sacrificing quality" },
-      "partner": { "title": "True Partnership", "desc": "We work as an extension of your team — your success is our metric" },
+      "quality": { "title": "Uncompromising Quality", "desc": "World-class standards in every delivery, from design to code, with careful review before every handover" },
+      "speed": { "title": "Fast Delivery", "desc": "We deliver your projects quickly and precisely, with instant follow-up on every request and zero complications" },
+      "partner": { "title": "True Partnership", "desc": "We work as an extension of your team — your success is our metric, with continued support after delivery" },
       "innovation": { "title": "Continuous Innovation", "desc": "We adopt the latest technologies and put them to work for your goals" }
     }
   },
@@ -54,7 +73,8 @@
       "motion": "Motion Graphics",
       "ai": "AI"
     },
-    "viewBehance": "See more on Behance"
+    "viewBehance": "See more on Behance",
+    "details": "View Details"
   },
   "process": {
     "label": "Our Process",
@@ -82,11 +102,13 @@
     "subtitle": "Tell us about your project and we will get back to you within 24 hours.",
     "form": {
       "name": "Full Name",
+      "namePh": "Enter your full name",
       "email": "Email Address",
       "phone": "Phone Number (optional)",
       "service": "Service Needed",
       "servicePlaceholder": "Select a service",
-      "message": "Tell us about your project",
+      "message": "Project Details",
+      "messagePh": "Tell us about your project...",
       "send": "Send Message",
       "sending": "Sending...",
       "success": "Your message has been sent! We will get back to you soon.",
@@ -94,8 +116,17 @@
     },
     "info": {
       "email": "Email",
+      "phone": "Phone",
       "location": "Location",
+      "response": "Response Time",
+      "responseValue": "We reply to every message within 24 working hours",
       "follow": "Follow Us"
+    },
+    "side": {
+      "fastTitle": "Fast Response",
+      "fastDesc": "We commit to replying to all messages within 24 working hours — serving you with the highest level of professionalism and care.",
+      "teamTitle": "Specialized Team",
+      "teamDesc": "Experienced consultants across every field — from development and design to marketing and AI."
     }
   },
   "footer": {

@@ -52,10 +52,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="flex min-h-svh">
-      <aside className="fixed inset-y-0 start-0 z-40 flex w-64 flex-col border-e border-white/5 bg-navy-900/80 backdrop-blur-xl max-lg:hidden">
-        <div className="border-b border-white/5 p-5">
-          <Logo size={36} />
+    <div className="flex min-h-svh bg-soft">
+      <aside className="fixed inset-y-0 start-0 z-40 flex w-64 flex-col border-e border-line bg-white max-lg:hidden">
+        <div className="border-b border-line p-5">
+          <Logo size={36} onDark={false} />
         </div>
         <nav className="flex-1 space-y-1 p-4">
           {nav.map((n) => {
@@ -66,8 +66,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                 href={n.href}
                 className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                   active
-                    ? "bg-gold-500/12 text-gold-300 ring-1 ring-gold-500/25"
-                    : "text-muted hover:bg-white/5 hover:text-ink"
+                    ? "bg-gold-100 text-gold-700 ring-1 ring-gold-300"
+                    : "text-body hover:bg-soft hover:text-ink"
                 }`}
               >
                 <n.icon size={18} />
@@ -76,18 +76,18 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             );
           })}
         </nav>
-        <div className="space-y-1 border-t border-white/5 p-4">
+        <div className="space-y-1 border-t border-line p-4">
           <a
             href="/ar"
             target="_blank"
-            className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-muted transition-colors hover:bg-white/5 hover:text-ink"
+            className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-body transition-colors hover:bg-soft hover:text-ink"
           >
             <ExternalLink size={18} />
             عرض الموقع
           </a>
           <button
             onClick={signOut}
-            className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm text-red-400 transition-colors hover:bg-red-500/10"
+            className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm text-red-500 transition-colors hover:bg-red-500/10"
           >
             <LogOut size={18} />
             تسجيل الخروج
@@ -96,7 +96,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* mobile top nav */}
-      <div className="fixed inset-x-0 top-0 z-40 flex items-center gap-1 overflow-x-auto border-b border-white/5 bg-navy-900/90 px-3 py-2 backdrop-blur-xl lg:hidden">
+      <div className="fixed inset-x-0 top-0 z-40 flex items-center gap-1 overflow-x-auto border-b border-line bg-white/95 px-3 py-2 backdrop-blur-xl lg:hidden">
         {nav.map((n) => {
           const active = pathname === n.href;
           return (
@@ -104,7 +104,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               key={n.href}
               href={n.href}
               className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium ${
-                active ? "bg-gold-500/12 text-gold-300" : "text-muted"
+                active ? "bg-gold-100 text-gold-700" : "text-body"
               }`}
             >
               <n.icon size={15} />
@@ -114,7 +114,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         })}
         <button
           onClick={signOut}
-          className="ms-auto flex shrink-0 items-center gap-1 rounded-lg px-3 py-2 text-xs text-red-400"
+          className="ms-auto flex shrink-0 items-center gap-1 rounded-lg px-3 py-2 text-xs text-red-500"
         >
           <LogOut size={15} />
         </button>

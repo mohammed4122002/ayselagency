@@ -29,19 +29,18 @@ export default function LoginPage() {
   };
 
   const inputCls =
-    "w-full rounded-xl border border-white/10 bg-navy-800/60 px-4 py-3.5 text-sm text-ink placeholder:text-muted/70 outline-none transition-all focus:border-gold-500/60 focus:ring-2 focus:ring-gold-500/20";
+    "w-full rounded-xl border border-line bg-white px-4 py-3.5 text-sm text-ink placeholder:text-muted outline-none transition-all focus:border-gold-500 focus:ring-2 focus:ring-gold-300/40";
 
   return (
-    <main className="grid-pattern flex min-h-svh items-center justify-center px-4">
-      <div className="orb orb-gold -top-20 h-[400px] w-[400px] -left-20" />
+    <main className="navy-band flex min-h-svh items-center justify-center px-4">
       <form
         onSubmit={onSubmit}
         className="glass-card relative z-10 w-full max-w-sm space-y-5 p-8"
       >
         <div className="flex justify-center">
-          <Logo size={44} />
+          <Logo size={44} onDark={false} />
         </div>
-        <h1 className="text-center text-lg font-bold text-muted">
+        <h1 className="text-center text-lg font-bold text-body">
           تسجيل الدخول للوحة التحكم
         </h1>
         <input
@@ -61,7 +60,7 @@ export default function LoginPage() {
           dir="ltr"
         />
         {error && (
-          <p className="rounded-xl bg-red-500/10 px-4 py-3 text-sm text-red-400 ring-1 ring-red-500/25">
+          <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-500 ring-1 ring-red-200">
             {error}
           </p>
         )}

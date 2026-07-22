@@ -10,6 +10,7 @@ import Process from "@/components/site/Process";
 import Testimonials from "@/components/site/Testimonials";
 import Contact from "@/components/site/Contact";
 import Footer from "@/components/site/Footer";
+import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 import { getDivisions, getProjects, getSettings, getTestimonials } from "@/lib/data";
 import type { Locale } from "@/lib/types";
 
@@ -35,7 +36,7 @@ export default async function HomePage({
     <>
       <Header />
       <main>
-        <Hero />
+        <Hero stats={settings.stats} />
         <Marquee divisions={divisions} locale={locale as Locale} />
         <Divisions divisions={divisions} />
         <About />
@@ -46,6 +47,7 @@ export default async function HomePage({
         <Contact divisions={divisions} settings={settings} />
       </main>
       <Footer divisions={divisions} settings={settings} locale={locale as Locale} />
+      <WhatsAppFloat number={settings.contact.whatsapp} />
     </>
   );
 }

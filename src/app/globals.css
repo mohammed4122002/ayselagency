@@ -1,20 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy-950: #030a16;
-  --color-navy-900: #050f22;
-  --color-navy-850: #071429;
-  --color-navy-800: #0a1a33;
-  --color-navy-700: #12274a;
-  --color-navy-600: #1b3768;
-  --color-gold-200: #f6e3a8;
-  --color-gold-300: #f0d080;
-  --color-gold-400: #e2bc5a;
-  --color-gold-500: #d4af37;
-  --color-gold-600: #b8952b;
-  --color-gold-700: #94761f;
-  --color-ink: #e9eef7;
-  --color-muted: #93a1b8;
+  /* Bawader-style palette: light surfaces, deep navy bands, muted gold */
+  --color-navy-950: #081e38;
+  --color-navy-900: #0a2440;
+  --color-navy-800: #0d2c4f;
+  --color-navy-700: #123a66;
+  --color-navy-600: #1b4a80;
+  --color-navy-500: #2a5d99;
+  --color-gold-100: #f7f1e3;
+  --color-gold-200: #ecdfc0;
+  --color-gold-300: #d9bd7c;
+  --color-gold-400: #cdab5c;
+  --color-gold-500: #be9a44;
+  --color-gold-600: #a8863a;
+  --color-gold-700: #8c6f2f;
+  --color-ink: #0f2b4c;
+  --color-body: #5b6b7f;
+  --color-muted: #8494a7;
+  --color-line: #e6ebf2;
+  --color-soft: #f6f8fb;
   --font-ar: "Tajawal", ui-sans-serif, system-ui, sans-serif;
   --font-en: "Outfit Variable", ui-sans-serif, system-ui, sans-serif;
 }
@@ -25,7 +30,7 @@ html {
 }
 
 body {
-  background: var(--color-navy-950);
+  background: #ffffff;
   color: var(--color-ink);
   overflow-x: clip;
 }
@@ -39,49 +44,79 @@ html[lang="en"] body {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--color-gold-500) 35%, transparent);
-  color: #fff;
+  background: color-mix(in srgb, var(--color-gold-500) 30%, transparent);
 }
 
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-navy-900);
+  background: #eef2f7;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-navy-700);
+  background: #c4cfdd;
   border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-gold-600);
+  background: var(--color-gold-500);
 }
 
-/* ---------- reusable utilities ---------- */
+/* ---------- navy band with diagonal geometric texture (hero / footer / CTA) ---------- */
 
-.text-gradient-gold {
-  background: linear-gradient(115deg, #f6e3a8 0%, #d4af37 45%, #b8952b 70%, #f0d080 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.navy-band {
+  position: relative;
+  background-color: var(--color-navy-800);
+  background-image:
+    linear-gradient(115deg, rgba(42, 93, 153, 0.5) 0%, transparent 45%),
+    linear-gradient(295deg, rgba(27, 74, 128, 0.55) 0%, transparent 40%),
+    linear-gradient(160deg, var(--color-navy-900) 0%, var(--color-navy-800) 55%, var(--color-navy-700) 100%);
+  color: #fff;
 }
+.navy-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.035) 0px,
+    rgba(255, 255, 255, 0.035) 1.5px,
+    transparent 1.5px,
+    transparent 72px
+  );
+}
+.navy-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 62%, rgba(255, 255, 255, 0.04) 62%, rgba(255, 255, 255, 0.04) 74%, transparent 74%),
+    linear-gradient(115deg, transparent 30%, rgba(8, 30, 56, 0.35) 30%, rgba(8, 30, 56, 0.35) 46%, transparent 46%);
+}
+.navy-band > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- buttons ---------- */
 
 .gold-btn {
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   border-radius: 9999px;
-  background: linear-gradient(115deg, #e2bc5a, #d4af37 50%, #b8952b);
-  color: #071429;
+  background: linear-gradient(115deg, var(--color-gold-400), var(--color-gold-500) 55%, var(--color-gold-600));
+  color: #fff;
   font-weight: 700;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 8px 32px -8px rgba(212, 175, 55, 0.45);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+  box-shadow: 0 10px 24px -10px rgba(190, 154, 68, 0.55);
 }
 .gold-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 44px -8px rgba(212, 175, 55, 0.6);
+  filter: brightness(1.05);
+  box-shadow: 0 16px 32px -10px rgba(190, 154, 68, 0.6);
 }
 
 .ghost-btn {
@@ -90,51 +125,122 @@ html[lang="en"] body {
   justify-content: center;
   gap: 0.5rem;
   border-radius: 9999px;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  color: var(--color-gold-300);
+  border: 1.5px solid var(--color-gold-500);
+  color: var(--color-gold-600);
+  background: transparent;
   font-weight: 600;
-  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 .ghost-btn:hover {
-  border-color: var(--color-gold-400);
-  background: rgba(212, 175, 55, 0.08);
+  background: var(--color-gold-500);
+  color: #fff;
   transform: translateY(-2px);
 }
 
-.glass-card {
-  background: linear-gradient(160deg, rgba(18, 39, 74, 0.45), rgba(7, 20, 41, 0.65));
-  border: 1px solid rgba(147, 161, 184, 0.14);
-  backdrop-filter: blur(14px);
+/* outline button for use on navy bands */
+.light-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+.light-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ---------- cards ---------- */
+
+.card {
+  background: #fff;
+  border: 1px solid var(--color-line);
   border-radius: 1.25rem;
-  transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 6px 24px -12px rgba(15, 43, 76, 0.08);
+  transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
+}
+.card:hover {
+  border-color: var(--color-gold-300);
+  box-shadow: 0 20px 44px -16px rgba(15, 43, 76, 0.16);
+  transform: translateY(-4px);
+}
+
+/* kept for the admin panel (maps to a plain light card now) */
+.glass-card {
+  background: #fff;
+  border: 1px solid var(--color-line);
+  border-radius: 1.25rem;
+  box-shadow: 0 6px 24px -12px rgba(15, 43, 76, 0.08);
+  transition: box-shadow 0.35s ease, border-color 0.35s ease;
 }
 .glass-card:hover {
-  border-color: rgba(212, 175, 55, 0.45);
-  box-shadow: 0 24px 60px -24px rgba(212, 175, 55, 0.25);
+  border-color: var(--color-gold-300);
+  box-shadow: 0 16px 36px -16px rgba(15, 43, 76, 0.14);
 }
+
+.icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.9rem;
+  background: linear-gradient(135deg, var(--color-gold-400), var(--color-gold-600));
+  color: #fff;
+  box-shadow: 0 8px 18px -8px rgba(190, 154, 68, 0.55);
+}
+
+.icon-badge-navy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.9rem;
+  background: linear-gradient(135deg, var(--color-navy-700), var(--color-navy-900));
+  color: #fff;
+  box-shadow: 0 8px 18px -8px rgba(13, 44, 79, 0.45);
+}
+
+/* ---------- section label pill ---------- */
 
 .section-label {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   border-radius: 9999px;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  background: rgba(212, 175, 55, 0.07);
-  color: var(--color-gold-300);
+  border: 1px solid var(--color-gold-300);
+  background: var(--color-gold-100);
+  color: var(--color-gold-600);
   font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.4rem 1rem;
+  font-weight: 700;
+  padding: 0.4rem 1.1rem;
   letter-spacing: 0.02em;
 }
 
-.grid-pattern {
-  background-image:
-    linear-gradient(rgba(147, 161, 184, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(147, 161, 184, 0.05) 1px, transparent 1px);
-  background-size: 56px 56px;
+.section-label-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-gold-300);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.4rem 1.1rem;
 }
 
-/* marquee */
+.text-gradient-gold {
+  background: linear-gradient(115deg, var(--color-gold-300), var(--color-gold-500) 55%, var(--color-gold-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- marquee ---------- */
+
 @keyframes marquee-rtl {
   from { transform: translateX(0); }
   to { transform: translateX(50%); }
@@ -155,32 +261,15 @@ html[lang="en"] body {
   animation-play-state: paused;
 }
 
-/* floating orbs */
-@keyframes float-slow {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(30px, -40px) scale(1.08); }
-}
-@keyframes float-slower {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-40px, 30px) scale(0.95); }
-}
-.orb {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(90px);
-  pointer-events: none;
-}
-.orb-gold {
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.28), transparent 65%);
-  animation: float-slow 14s ease-in-out infinite;
-}
-.orb-blue {
-  background: radial-gradient(circle, rgba(41, 98, 255, 0.2), transparent 65%);
-  animation: float-slower 18s ease-in-out infinite;
+/* dotted connector for the process section */
+.process-line {
+  background-image: linear-gradient(to left, var(--color-gold-400) 45%, transparent 45%);
+  background-size: 14px 2px;
+  background-repeat: repeat-x;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track, .orb {
+  .marquee-track {
     animation: none;
   }
   html {

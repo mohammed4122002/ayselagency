@@ -45,7 +45,7 @@ export default function AdminHome() {
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c) => (
           <Link key={c.label} href={c.href} className="glass-card block p-6">
-            <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-gold-500/12 text-gold-400 ring-1 ring-gold-500/25">
+            <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-gold-100 text-gold-600 ring-1 ring-gold-300">
               <c.icon size={20} />
             </span>
             <div className="text-3xl font-extrabold text-gradient-gold">

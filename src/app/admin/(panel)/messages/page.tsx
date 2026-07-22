@@ -55,7 +55,7 @@ export default function MessagesPage() {
                 <a
                   href={`mailto:${m.email}`}
                   dir="ltr"
-                  className="text-sm text-gold-300 hover:underline"
+                  className="text-sm text-gold-600 hover:underline"
                 >
                   {m.email}
                 </a>
@@ -65,7 +65,7 @@ export default function MessagesPage() {
                   </span>
                 )}
                 {m.service_interest && (
-                  <span className="rounded-full bg-gold-500/10 px-3 py-1 text-xs font-semibold text-gold-300 ring-1 ring-gold-500/25">
+                  <span className="rounded-full bg-gold-500/10 px-3 py-1 text-xs font-semibold text-gold-600 ring-1 ring-gold-500/25">
                     {m.service_interest}
                   </span>
                 )}

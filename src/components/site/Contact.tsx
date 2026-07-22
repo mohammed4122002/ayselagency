@@ -5,19 +5,50 @@ import { motion } from "framer-motion";
 import {
   CheckCircle2,
   CircleX,
+  Clock3,
   Globe2,
   Loader2,
   Mail,
+  MessageSquareText,
+  Phone,
   Send,
+  User,
+  Wrench,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Reveal from "@/components/ui/Reveal";
+import SectionHeading from "@/components/ui/SectionHeading";
 import { getSupabaseBrowser } from "@/lib/supabase/client";
 import type { Division, Locale, SiteSettings } from "@/lib/types";
 import { loc } from "@/lib/types";
 import SocialLinks from "./SocialLinks";
 
 type Status = "idle" | "sending" | "success" | "error";
+
+const inputCls =
+  "w-full rounded-xl border border-line bg-white px-4 py-3.5 text-sm text-ink placeholder:text-muted outline-none transition-all focus:border-gold-500 focus:ring-2 focus:ring-gold-300/40";
+
+function Field({
+  label,
+  icon: Icon,
+  children,
+}: {
+  label: string;
+  icon: React.ComponentType<{ size?: number | string }>;
+  children: React.ReactNode;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 flex items-center gap-1.5 text-sm font-bold text-ink">
+        <span className="text-gold-500">
+          <Icon size={15} />
+        </span>
+        {label}
+      </span>
+      {children}
+    </label>
+  );
+}
 
 export default function Contact({
   divisions,
@@ -52,170 +83,217 @@ export default function Contact({
     }
   };
 
-  const inputCls =
-    "w-full rounded-xl border border-white/10 bg-navy-800/60 px-4 py-3.5 text-sm text-ink placeholder:text-muted/70 outline-none transition-all focus:border-gold-500/60 focus:ring-2 focus:ring-gold-500/20";
+  const infoCards = [
+    {
+      icon: Mail,
+      label: t("info.email"),
+      value: settings.contact.email,
+      href: `mailto:${settings.contact.email}`,
+      navy: false,
+      ltr: true,
+    },
+    ...(settings.contact.phone
+      ? [
+          {
+            icon: Phone,
+            label: t("info.phone"),
+            value: settings.contact.phone,
+            href: `tel:${settings.contact.phone}`,
+            navy: true,
+            ltr: true,
+          },
+        ]
+      : [
+          {
+            icon: Globe2,
+            label: t("info.location"),
+            value:
+              locale === "ar"
+                ? settings.contact.address_ar
+                : settings.contact.address_en,
+            href: "",
+            navy: true,
+            ltr: false,
+          },
+        ]),
+    {
+      icon: Clock3,
+      label: t("info.response"),
+      value: t("info.responseValue"),
+      href: "",
+      navy: false,
+      ltr: false,
+    },
+  ];
 
   return (
-    <section id="contact" className="relative scroll-mt-24 py-24 sm:py-32">
-      <div className="orb orb-gold top-20 h-[400px] w-[400px] ltr:-right-52 rtl:-left-52 opacity-40" />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        {/* CTA banner */}
-        <Reveal>
-          <div className="glass-card relative mb-20 overflow-hidden p-10 text-center sm:p-14">
-            <div className="grid-pattern absolute inset-0 opacity-60" />
-            <div className="relative z-10">
-              <h2 className="text-3xl font-extrabold sm:text-4xl">
-                <span className="text-gradient-gold">{tc("title")}</span>
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl leading-relaxed text-muted">
-                {tc("subtitle")}
-              </p>
-              <a href="#contact-form" className="gold-btn mt-8 px-8 py-4 text-base">
-                {tc("button")}
-              </a>
-            </div>
+    <>
+      {/* CTA navy band — Bawader "لم تجد ما تبحث عنه؟" style */}
+      <section className="navy-band py-16 sm:py-20">
+        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+          <Reveal>
+            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">{tc("title")}</h2>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <p className="mx-auto mt-4 max-w-xl leading-relaxed text-white/70">
+              {tc("subtitle")}
+            </p>
+          </Reveal>
+          <Reveal delay={0.22}>
+            <a href="#contact" className="gold-btn mt-8 px-9 py-4 text-base">
+              {tc("button")}
+            </a>
+          </Reveal>
+        </div>
+      </section>
+
+      <section id="contact" className="scroll-mt-24 bg-white py-20 sm:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <SectionHeading label={t("label")} title={t("title")} subtitle={t("subtitle")} />
+
+          {/* info cards */}
+          <div className="mb-14 grid gap-6 md:grid-cols-3">
+            {infoCards.map((c, i) => {
+              const Wrapper = c.href ? "a" : "div";
+              return (
+                <Reveal key={i} delay={i * 0.1}>
+                  <Wrapper
+                    {...(c.href ? { href: c.href } : {})}
+                    className="card flex flex-col items-center gap-4 p-8 text-center"
+                  >
+                    <span className={`${c.navy ? "icon-badge-navy" : "icon-badge"} h-13 w-13`}>
+                      <c.icon size={22} />
+                    </span>
+                    <span>
+                      <span className="block text-lg font-extrabold text-ink">{c.label}</span>
+                      <span
+                        className="mt-1.5 block text-sm text-body"
+                        {...(c.ltr ? { dir: "ltr" } : {})}
+                      >
+                        {c.value}
+                      </span>
+                    </span>
+                  </Wrapper>
+                </Reveal>
+              );
+            })}
           </div>
-        </Reveal>
 
-        <div className="grid gap-12 lg:grid-cols-5" id="contact-form">
-          {/* info */}
-          <div className="lg:col-span-2">
-            <Reveal>
-              <span className="section-label">{t("label")}</span>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h2 className="mt-5 text-3xl font-extrabold sm:text-4xl">{t("title")}</h2>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <p className="mt-4 leading-relaxed text-muted">{t("subtitle")}</p>
-            </Reveal>
-
-            <div className="mt-10 space-y-5">
-              <Reveal delay={0.25}>
-                <a
-                  href={`mailto:${settings.contact.email}`}
-                  className="glass-card flex items-center gap-4 p-5"
-                >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gold-500/12 text-gold-400 ring-1 ring-gold-500/25">
-                    <Mail size={20} />
+          <div className="grid gap-10 lg:grid-cols-5">
+            {/* side column */}
+            <div className="space-y-6 lg:col-span-2">
+              <Reveal>
+                <div className="card p-7">
+                  <span className="icon-badge mb-4 h-12 w-12">
+                    <Clock3 size={20} />
                   </span>
-                  <span>
-                    <span className="block text-xs text-muted">{t("info.email")}</span>
-                    <span className="font-semibold" dir="ltr">
-                      {settings.contact.email}
-                    </span>
-                  </span>
-                </a>
-              </Reveal>
-              <Reveal delay={0.3}>
-                <div className="glass-card flex items-center gap-4 p-5">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gold-500/12 text-gold-400 ring-1 ring-gold-500/25">
-                    <Globe2 size={20} />
-                  </span>
-                  <span>
-                    <span className="block text-xs text-muted">{t("info.location")}</span>
-                    <span className="font-semibold">
-                      {locale === "ar"
-                        ? settings.contact.address_ar
-                        : settings.contact.address_en}
-                    </span>
-                  </span>
+                  <h3 className="mb-2 font-extrabold text-ink">{t("side.fastTitle")}</h3>
+                  <p className="text-sm leading-relaxed text-body">{t("side.fastDesc")}</p>
                 </div>
               </Reveal>
-              <Reveal delay={0.35}>
-                <div>
-                  <span className="mb-3 block text-xs text-muted">{t("info.follow")}</span>
+              <Reveal delay={0.1}>
+                <div className="card p-7">
+                  <span className="icon-badge-navy mb-4 h-12 w-12">
+                    <Wrench size={20} />
+                  </span>
+                  <h3 className="mb-2 font-extrabold text-ink">{t("side.teamTitle")}</h3>
+                  <p className="text-sm leading-relaxed text-body">{t("side.teamDesc")}</p>
+                </div>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <div className="card p-7">
+                  <h3 className="mb-4 font-extrabold text-ink">{t("info.follow")}</h3>
                   <SocialLinks social={settings.social} />
                 </div>
               </Reveal>
             </div>
-          </div>
 
-          {/* form */}
-          <Reveal delay={0.15} className="lg:col-span-3">
-            <form onSubmit={onSubmit} className="glass-card space-y-5 p-8 sm:p-10">
-              <div className="grid gap-5 sm:grid-cols-2">
-                <input
-                  name="name"
-                  required
-                  placeholder={t("form.name")}
-                  className={inputCls}
-                />
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  placeholder={t("form.email")}
-                  className={inputCls}
-                  dir="ltr"
-                />
-              </div>
-              <div className="grid gap-5 sm:grid-cols-2">
-                <input
-                  name="phone"
-                  placeholder={t("form.phone")}
-                  className={inputCls}
-                  dir="ltr"
-                />
-                <select name="service" className={inputCls} defaultValue="">
-                  <option value="" disabled>
-                    {t("form.servicePlaceholder")}
-                  </option>
-                  {divisions.map((d) => (
-                    <option key={d.id} value={d.slug} className="bg-navy-800">
-                      {loc(d, "name", locale)} — {loc(d, "tagline", locale)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <textarea
-                name="message"
-                required
-                rows={5}
-                placeholder={t("form.message")}
-                className={inputCls}
-              />
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                disabled={status === "sending"}
-                className="gold-btn w-full px-8 py-4 text-base disabled:opacity-70"
-                type="submit"
-              >
-                {status === "sending" ? (
-                  <>
-                    <Loader2 size={18} className="animate-spin" />
-                    {t("form.sending")}
-                  </>
-                ) : (
-                  <>
-                    <Send size={17} className="rtl:-scale-x-100" />
-                    {t("form.send")}
-                  </>
+            {/* form */}
+            <Reveal delay={0.15} className="lg:col-span-3">
+              <form onSubmit={onSubmit} className="card space-y-5 p-8 sm:p-10">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Field label={t("form.name")} icon={User}>
+                    <input name="name" required placeholder={t("form.namePh")} className={inputCls} />
+                  </Field>
+                  <Field label={t("form.email")} icon={Mail}>
+                    <input
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="example@mail.com"
+                      className={inputCls}
+                      dir="ltr"
+                    />
+                  </Field>
+                </div>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Field label={t("form.phone")} icon={Phone}>
+                    <input name="phone" placeholder="+9665XXXXXXXX" className={inputCls} dir="ltr" />
+                  </Field>
+                  <Field label={t("form.service")} icon={Wrench}>
+                    <select name="service" className={inputCls} defaultValue="">
+                      <option value="" disabled>
+                        {t("form.servicePlaceholder")}
+                      </option>
+                      {divisions.map((d) => (
+                        <option key={d.id} value={d.slug}>
+                          {loc(d, "name", locale)} — {loc(d, "tagline", locale)}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                </div>
+                <Field label={t("form.message")} icon={MessageSquareText}>
+                  <textarea
+                    name="message"
+                    required
+                    rows={5}
+                    placeholder={t("form.messagePh")}
+                    className={inputCls}
+                  />
+                </Field>
+                <motion.button
+                  whileTap={{ scale: 0.97 }}
+                  disabled={status === "sending"}
+                  className="gold-btn w-full px-8 py-4 text-base disabled:opacity-70"
+                  type="submit"
+                >
+                  {status === "sending" ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      {t("form.sending")}
+                    </>
+                  ) : (
+                    <>
+                      <Send size={17} className="rtl:-scale-x-100" />
+                      {t("form.send")}
+                    </>
+                  )}
+                </motion.button>
+
+                {status === "success" && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-2 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-600 ring-1 ring-emerald-200"
+                  >
+                    <CheckCircle2 size={17} /> {t("form.success")}
+                  </motion.p>
                 )}
-              </motion.button>
-
-              {status === "success" && (
-                <motion.p
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-2 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-400 ring-1 ring-emerald-500/25"
-                >
-                  <CheckCircle2 size={17} /> {t("form.success")}
-                </motion.p>
-              )}
-              {status === "error" && (
-                <motion.p
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-2 rounded-xl bg-red-500/10 px-4 py-3 text-sm font-medium text-red-400 ring-1 ring-red-500/25"
-                >
-                  <CircleX size={17} /> {t("form.error")}
-                </motion.p>
-              )}
-            </form>
-          </Reveal>
+                {status === "error" && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-500 ring-1 ring-red-200"
+                  >
+                    <CircleX size={17} /> {t("form.error")}
+                  </motion.p>
+                )}
+              </form>
+            </Reveal>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

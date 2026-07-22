@@ -14,20 +14,20 @@ export default function Marquee({
   const row = [...names, ...names];
 
   return (
-    <div className="relative overflow-hidden border-y border-white/5 bg-navy-900/60 py-5">
+    <div className="relative overflow-hidden border-b border-line bg-soft py-4">
       <div className="marquee-track gap-10">
         {row.map((n, i) => (
           <span
             key={i}
-            className="flex shrink-0 items-center gap-10 text-sm font-medium text-muted"
+            className="flex shrink-0 items-center gap-10 text-sm font-semibold text-body"
           >
             {n}
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-gold-500/70" />
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-gold-500" />
           </span>
         ))}
       </div>
-      <div className="pointer-events-none absolute inset-y-0 start-0 w-24 bg-gradient-to-r from-navy-950 to-transparent rtl:bg-gradient-to-l" />
-      <div className="pointer-events-none absolute inset-y-0 end-0 w-24 bg-gradient-to-l from-navy-950 to-transparent rtl:bg-gradient-to-r" />
+      <div className="pointer-events-none absolute inset-y-0 start-0 w-24 bg-gradient-to-r from-soft to-transparent rtl:bg-gradient-to-l" />
+      <div className="pointer-events-none absolute inset-y-0 end-0 w-24 bg-gradient-to-l from-soft to-transparent rtl:bg-gradient-to-r" />
     </div>
   );
 }

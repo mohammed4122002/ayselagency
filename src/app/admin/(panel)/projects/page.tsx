@@ -29,7 +29,7 @@ const empty: Partial<Project> = {
 };
 
 const inputCls =
-  "w-full rounded-xl border border-white/10 bg-navy-800/60 px-4 py-3 text-sm text-ink placeholder:text-muted/70 outline-none focus:border-gold-500/60";
+  "w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink placeholder:text-muted outline-none focus:border-gold-500";
 
 export default function ProjectsAdmin() {
   const [items, setItems] = useState<Project[] | null>(null);
@@ -109,7 +109,7 @@ export default function ProjectsAdmin() {
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((p) => (
           <article key={p.id} className="glass-card overflow-hidden">
-            <div className="relative aspect-[4/3] bg-navy-800">
+            <div className="relative aspect-[4/3] bg-soft">
               {p.image_url ? (
                 <Image src={p.image_url} alt={p.title_ar} fill sizes="33vw" className="object-cover" />
               ) : (
@@ -124,7 +124,7 @@ export default function ProjectsAdmin() {
               )}
             </div>
             <div className="p-5">
-              <div className="mb-1 text-xs font-semibold text-gold-400">
+              <div className="mb-1 text-xs font-semibold text-gold-600">
                 {catLabels[p.category] ?? p.category}
               </div>
               <h3 className="font-bold">{p.title_ar}</h3>
@@ -152,7 +152,7 @@ export default function ProjectsAdmin() {
       {/* editor modal */}
       {editing && (
         <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm">
-          <div className="glass-card my-8 w-full max-w-2xl space-y-4 !bg-navy-900 p-7">
+          <div className="glass-card my-8 w-full max-w-2xl space-y-4 !bg-white p-7">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold">
                 {editing.id ? "تعديل المشروع" : "مشروع جديد"}
@@ -185,7 +185,7 @@ export default function ProjectsAdmin() {
                 className={inputCls}
               >
                 {categories.map((c) => (
-                  <option key={c} value={c} className="bg-navy-800">
+                  <option key={c} value={c}>
                     {catLabels[c]}
                   </option>
                 ))}

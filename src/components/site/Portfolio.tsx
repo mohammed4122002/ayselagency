@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, ImageIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, ImageIcon } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import SectionHeading from "@/components/ui/SectionHeading";
 import type { Locale, Project } from "@/lib/types";
@@ -21,6 +21,7 @@ export default function Portfolio({
   const t = useTranslations("portfolio");
   const locale = useLocale() as Locale;
   const [active, setActive] = useState<(typeof categories)[number]>("all");
+  const Arrow = locale === "ar" ? ArrowLeft : ArrowRight;
 
   const filtered = useMemo(
     () => (active === "all" ? projects : projects.filter((p) => p.category === active)),
@@ -28,25 +29,26 @@ export default function Portfolio({
   );
 
   return (
-    <section id="portfolio" className="relative scroll-mt-24 py-24 sm:py-32">
-      <div className="orb orb-gold top-1/4 h-[420px] w-[420px] ltr:-right-52 rtl:-left-52 opacity-40" />
+    <section id="portfolio" className="scroll-mt-24 bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading label={t("label")} title={t("title")} subtitle={t("subtitle")} />
 
-        {/* filters */}
+        {/* filter pills */}
         <div className="mb-12 flex flex-wrap items-center justify-center gap-2.5">
           {categories.map((c) => (
             <button
               key={c}
               onClick={() => setActive(c)}
-              className={`relative rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
-                active === c ? "text-navy-900" : "text-muted hover:text-ink"
+              className={`relative rounded-full border px-5 py-2 text-sm font-bold transition-colors ${
+                active === c
+                  ? "border-transparent text-white"
+                  : "border-line bg-white text-body hover:border-gold-300 hover:text-gold-600"
               }`}
             >
               {active === c && (
                 <motion.span
                   layoutId="filter-pill"
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-gold-300 to-gold-500"
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-gold-400 to-gold-600"
                   transition={{ type: "spring", stiffness: 380, damping: 32 }}
                 />
               )}
@@ -64,40 +66,43 @@ export default function Portfolio({
               <motion.article
                 layout
                 key={p.id}
-                initial={{ opacity: 0, scale: 0.92 }}
+                initial={{ opacity: 0, scale: 0.94 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.92 }}
+                exit={{ opacity: 0, scale: 0.94 }}
                 transition={{ duration: 0.45, ease: [0.21, 0.65, 0.36, 1] }}
-                className="glass-card group overflow-hidden"
+                className="card group overflow-hidden"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-navy-800">
+                <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-xl bg-soft">
                   {p.image_url ? (
                     <Image
                       src={p.image_url}
                       alt={loc(p, "title", locale)}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="object-cover transition-transform duration-700 group-hover:scale-108"
                     />
                   ) : (
-                    <div className="grid-pattern flex h-full items-center justify-center">
-                      <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gold-500/10 text-gold-500/60 ring-1 ring-gold-500/20">
+                    <div className="flex h-full items-center justify-center bg-gradient-to-br from-soft to-gold-100">
+                      <span className="icon-badge h-16 w-16 opacity-80">
                         <ImageIcon size={28} />
                       </span>
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <span className="absolute bottom-4 start-4 rounded-full bg-gold-500/90 px-3 py-1 text-xs font-bold text-navy-900 opacity-0 transition-all duration-500 group-hover:opacity-100">
+                  <span className="absolute top-3 start-3 rounded-full bg-navy-800/90 px-3 py-1 text-xs font-bold text-white backdrop-blur">
                     {t(`categories.${p.category}`)}
                   </span>
                 </div>
-                <div className="p-6">
-                  <h3 className="mb-2 text-lg font-bold transition-colors group-hover:text-gold-300">
+                <div className="px-6 pb-6 pt-1">
+                  <h3 className="mb-2 text-lg font-extrabold text-ink transition-colors group-hover:text-gold-600">
                     {loc(p, "title", locale)}
                   </h3>
-                  <p className="text-sm leading-relaxed text-muted">
+                  <p className="mb-4 text-sm leading-relaxed text-body">
                     {loc(p, "description", locale)}
                   </p>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-bold text-gold-600">
+                    {t("details")}
+                    <Arrow size={15} className="transition-transform duration-300 group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
+                  </span>
                 </div>
               </motion.article>
             ))}

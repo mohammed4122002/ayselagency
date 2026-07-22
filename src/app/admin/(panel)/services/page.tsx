@@ -6,7 +6,7 @@ import { getSupabaseBrowser } from "@/lib/supabase/client";
 import type { Division, Service } from "@/lib/types";
 
 const inputCls =
-  "w-full rounded-xl border border-white/10 bg-navy-800/60 px-4 py-3 text-sm text-ink placeholder:text-muted/70 outline-none focus:border-gold-500/60";
+  "w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink placeholder:text-muted outline-none focus:border-gold-500";
 
 export default function ServicesAdmin() {
   const [divisions, setDivisions] = useState<Division[] | null>(null);
@@ -73,13 +73,13 @@ export default function ServicesAdmin() {
             <div className="mb-1 font-extrabold" dir="ltr">
               {d.name_ar}
             </div>
-            <div className="mb-5 text-sm font-semibold text-gold-400">{d.tagline_ar}</div>
+            <div className="mb-5 text-sm font-semibold text-gold-600">{d.tagline_ar}</div>
 
             <ul className="space-y-2">
               {d.services?.map((s) => (
                 <li
                   key={s.id}
-                  className={`flex items-center gap-3 rounded-xl border border-white/8 bg-navy-800/40 px-4 py-2.5 text-sm ${
+                  className={`flex items-center gap-3 rounded-xl border border-line bg-soft px-4 py-2.5 text-sm ${
                     s.published ? "" : "opacity-50"
                   }`}
                 >
@@ -92,7 +92,7 @@ export default function ServicesAdmin() {
                     title={s.published ? "إخفاء" : "إظهار"}
                     className={`rounded-lg p-1.5 transition-colors ${
                       s.published
-                        ? "text-emerald-400 hover:bg-emerald-500/10"
+                        ? "text-emerald-600 hover:bg-emerald-500/10"
                         : "text-muted hover:bg-white/5"
                     }`}
                   >

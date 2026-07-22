@@ -87,7 +87,13 @@ const map: {
   { key: "youtube", Icon: YoutubeIcon, label: "YouTube" },
 ];
 
-export default function SocialLinks({ social }: { social: SocialSettings }) {
+export default function SocialLinks({
+  social,
+  onDark = false,
+}: {
+  social: SocialSettings;
+  onDark?: boolean;
+}) {
   const links = map.filter((m) => social[m.key]);
   if (!links.length) return null;
   return (
@@ -99,7 +105,11 @@ export default function SocialLinks({ social }: { social: SocialSettings }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={m.label}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-navy-800/60 text-muted transition-all hover:-translate-y-1 hover:border-gold-500/50 hover:text-gold-400"
+          className={
+            onDark
+              ? "flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/8 text-white/70 transition-all hover:-translate-y-1 hover:border-gold-400 hover:text-gold-300"
+              : "flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-soft text-body transition-all hover:-translate-y-1 hover:border-gold-400 hover:bg-gold-100 hover:text-gold-600"
+          }
         >
           <m.Icon />
         </a>
