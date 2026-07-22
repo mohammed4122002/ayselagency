@@ -11,6 +11,7 @@ import Testimonials from "@/components/site/Testimonials";
 import Contact from "@/components/site/Contact";
 import Footer from "@/components/site/Footer";
 import WhatsAppFloat from "@/components/site/WhatsAppFloat";
+import ScrollTools from "@/components/site/ScrollTools";
 import { getDivisions, getProjects, getSettings, getTestimonials } from "@/lib/data";
 import type { Locale } from "@/lib/types";
 
@@ -34,12 +35,13 @@ export default async function HomePage({
 
   return (
     <>
+      <ScrollTools />
       <Header />
       <main>
         <Hero stats={settings.stats} />
         <Marquee divisions={divisions} locale={locale as Locale} />
         <Divisions divisions={divisions} />
-        <About />
+        <About projects={projects} />
         <Stats stats={settings.stats} />
         <Portfolio projects={projects} behanceUrl={settings.social.behance} />
         <Process />

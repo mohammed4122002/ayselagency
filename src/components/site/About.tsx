@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { Award, Gem, Handshake, Lightbulb, Rocket, type LucideIcon } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Reveal from "@/components/ui/Reveal";
-import { IMAGES } from "@/lib/images";
+import { portfolioImage } from "@/lib/images";
+import type { Project } from "@/lib/types";
 
 const features: { key: string; icon: LucideIcon }[] = [
   { key: "speed", icon: Rocket },
@@ -12,50 +13,63 @@ const features: { key: string; icon: LucideIcon }[] = [
   { key: "partner", icon: Handshake },
 ];
 
-export default function About() {
+export default function About({ projects = [] }: { projects?: Project[] }) {
   const t = useTranslations("about");
   const locale = useLocale();
+
+  // showcase a few real project boards inside a bespoke navy frame
+  const shots = projects.slice(0, 3);
 
   return (
     <section id="about" className="scroll-mt-24 bg-soft py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid items-center gap-14 lg:grid-cols-2">
-          {/* photo collage */}
+          {/* bespoke project collage — real work, no stock */}
           <Reveal className="relative">
-            <div className="img-frame relative aspect-[4/3] rounded-xl shadow-xl shadow-navy-900/10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={IMAGES.aboutMain}
-                alt={
-                  locale === "ar"
-                    ? "فريق Aysel Agency يتعاون على مشروع"
-                    : "Aysel Agency team collaborating on a project"
-                }
-                loading="lazy"
-                className="rounded-xl"
-              />
+            <div className="navy-band relative overflow-hidden rounded-3xl p-6 shadow-2xl shadow-navy-900/20">
+              <div className="relative grid grid-cols-2 gap-4">
+                {shots[0] && (
+                  <div className="img-frame col-span-2 h-44 overflow-hidden rounded-xl ring-1 ring-white/10">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={portfolioImage(shots[0].category, shots[0].image_url)}
+                      alt=""
+                      loading="lazy"
+                      className="!object-top"
+                    />
+                  </div>
+                )}
+                {shots.slice(1, 3).map((p) => (
+                  <div
+                    key={p.id}
+                    className="img-frame h-36 overflow-hidden rounded-xl ring-1 ring-white/10"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={portfolioImage(p.category, p.image_url)}
+                      alt=""
+                      loading="lazy"
+                      className="!object-top"
+                    />
+                  </div>
+                ))}
+              </div>
+              {/* caption */}
+              <div className="mt-5 flex items-center justify-between">
+                <span className="text-sm font-bold text-white">
+                  {locale === "ar" ? "نماذج من أعمالنا" : "From our work"}
+                </span>
+                <span className="text-xs font-semibold text-gold-300">Aysel Agency</span>
+              </div>
             </div>
-            {/* small overlapping photo */}
-            <div className="img-frame absolute -bottom-8 hidden w-52 rounded-xl border-4 border-white shadow-xl sm:block ltr:-right-6 rtl:-left-6">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={IMAGES.aboutSmall}
-                alt={
-                  locale === "ar"
-                    ? "اجتماع عمل في مكتب Aysel Agency"
-                    : "Business meeting at Aysel Agency office"
-                }
-                loading="lazy"
-                className="aspect-[4/3] rounded-lg"
-              />
-            </div>
+
             {/* experience badge */}
             <motion.div
               initial={{ scale: 0, rotate: -8 }}
               whileInView={{ scale: 1, rotate: 0 }}
               viewport={{ once: true }}
               transition={{ type: "spring", stiffness: 220, damping: 16, delay: 0.3 }}
-              className="absolute -top-6 flex h-24 w-24 flex-col items-center justify-center rounded-full bg-gradient-to-br from-gold-400 to-gold-600 text-white shadow-lg shadow-gold-500/40 ltr:-left-4 rtl:-right-4"
+              className="absolute -top-6 z-10 flex h-24 w-24 flex-col items-center justify-center rounded-full bg-gradient-to-br from-gold-400 to-gold-600 text-white shadow-lg shadow-gold-500/40 ltr:-left-4 rtl:-right-4"
             >
               <Award size={22} />
               <span className="mt-1 text-[11px] font-extrabold leading-tight text-center">
