@@ -1,54 +1,103 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import {
-  Brain,
-  Code2,
-  Megaphone,
-  Palette,
-  Sparkles,
-  type LucideIcon,
-} from "lucide-react";
-import { useTranslations } from "next-intl";
+  animate,
+  motion,
+  useInView,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
+import { Sparkles } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { IMAGES } from "@/lib/images";
 import type { StatsSettings } from "@/lib/types";
 
 const container = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
+  visible: { transition: { staggerChildren: 0.13, delayChildren: 0.2 } },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 36 },
+  hidden: { opacity: 0, y: 34 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.75, ease: [0.21, 0.65, 0.36, 1] as const },
+    transition: { duration: 0.7, ease: [0.21, 0.65, 0.36, 1] as const },
   },
 };
 
-const divisionCards: { icon: LucideIcon; labelKey: string }[] = [
-  { icon: Code2, labelKey: "tech" },
-  { icon: Palette, labelKey: "media" },
-  { icon: Megaphone, labelKey: "marketing" },
-  { icon: Brain, labelKey: "ai" },
-];
+function CountUp({ value, suffix = "+" }: { value: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+  const mv = useMotionValue(0);
+  const rounded = useTransform(mv, (v) => Math.round(v).toLocaleString("en-US"));
+
+  useEffect(() => {
+    if (inView) {
+      const controls = animate(mv, value, {
+        duration: 2,
+        delay: 0.9,
+        ease: [0.16, 1, 0.3, 1],
+      });
+      return controls.stop;
+    }
+  }, [inView, mv, value]);
+
+  return (
+    <span ref={ref} dir="ltr" className="text-3xl font-extrabold text-gold-300 sm:text-4xl">
+      <motion.span>{rounded}</motion.span>
+      {suffix}
+    </span>
+  );
+}
 
 export default function Hero({ stats }: { stats: StatsSettings }) {
   const t = useTranslations("hero");
+  const locale = useLocale();
 
-  const statPills = [
-    { value: stats.projects, label: t("stats.projects") },
-    { value: stats.clients, label: t("stats.clients") },
-    { value: stats.years, label: t("stats.years") },
+  const trust = [
+    { value: stats.projects, suffix: "+", label: t("stats.projects") },
+    { value: stats.years, suffix: "+", label: t("stats.years") },
+    { value: 98, suffix: "%", label: t("stats.satisfaction") },
   ];
 
   return (
-    <section id="top" className="navy-band overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24">
-      <div className="mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2">
-        {/* text column */}
-        <motion.div variants={container} initial="hidden" animate="visible">
+    <section id="top" className="relative flex min-h-svh items-center overflow-hidden">
+      {/* cinematic background photo + layered navy overlay */}
+      <div className="absolute inset-0">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={IMAGES.heroBg}
+          alt={
+            locale === "ar"
+              ? "فريق عمل Aysel Agency أثناء تطوير مشروع رقمي"
+              : "Aysel Agency team working on a digital project"
+          }
+          className="h-full w-full object-cover"
+          fetchPriority="high"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-950/85 via-navy-900/80 to-navy-950/95" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950/70 via-transparent to-navy-950/70" />
+        {/* subtle diagonal texture */}
+        <div
+          className="absolute inset-0 opacity-60"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0 1.5px, transparent 1.5px 80px)",
+          }}
+        />
+      </div>
+
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="visible"
+        className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-24 pt-32 sm:px-6"
+      >
+        <div className="mx-auto max-w-3xl text-center">
           <motion.div variants={item}>
-            <span className="section-label-light">
+            <span className="section-label-light backdrop-blur-sm">
               <Sparkles size={14} />
               {t("badge")}
             </span>
@@ -56,82 +105,63 @@ export default function Hero({ stats }: { stats: StatsSettings }) {
 
           <motion.h1
             variants={item}
-            className="mt-6 text-4xl font-extrabold leading-[1.2] tracking-tight sm:text-5xl lg:text-[3.4rem]"
+            className="mt-7 text-[2.6rem] font-bold leading-[1.25] tracking-tight text-white sm:text-[3.4rem] lg:text-[4rem]"
           >
             {t("title1")}
             <br />
-            <span className="text-gradient-gold">{t("title2")}</span>
+            <span className="text-gradient-gold font-extrabold">{t("title2")}</span>
           </motion.h1>
 
           <motion.p
             variants={item}
-            className="mt-6 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg"
+            className="mx-auto mt-7 max-w-2xl text-[17px] leading-relaxed text-white/75 sm:text-lg"
           >
             {t("subtitle")}
           </motion.p>
 
-          <motion.div variants={item} className="mt-9 flex flex-wrap items-center gap-4">
-            <a href="#contact" className="gold-btn px-8 py-4 text-base">
+          <motion.div
+            variants={item}
+            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+          >
+            <a href="#contact" className="gold-btn px-9 py-4 text-base">
               {t("cta")}
+              <span className="btn-arrow rtl:-scale-x-100">→</span>
             </a>
-            <a href="#divisions" className="light-btn px-8 py-4 text-base">
+            <a href="#divisions" className="light-btn px-9 py-4 text-base backdrop-blur-sm">
               {t("cta2")}
             </a>
           </motion.div>
 
-          {/* stat badges — Bawader style gold circles */}
-          <motion.div variants={item} className="mt-12 flex flex-wrap gap-8">
-            {statPills.map((s, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-gold-400/70 bg-gold-500/10 text-lg font-extrabold text-gold-300">
-                  <span dir="ltr">{s.value.toLocaleString("en-US")}+</span>
-                </span>
-                <span className="max-w-24 text-sm font-medium leading-snug text-white/75">
+          {/* trust indicators with count-up */}
+          <motion.div
+            variants={item}
+            className="mx-auto mt-14 grid max-w-xl grid-cols-3 divide-x divide-white/15 rounded-2xl border border-white/12 bg-white/[0.05] py-6 backdrop-blur-md rtl:divide-x-reverse"
+          >
+            {trust.map((s, i) => (
+              <div key={i} className="flex flex-col items-center gap-1.5 px-2">
+                <CountUp value={s.value} suffix={s.suffix} />
+                <span className="text-xs font-semibold text-white/70 sm:text-sm">
                   {s.label}
                 </span>
               </div>
             ))}
           </motion.div>
-        </motion.div>
-
-        {/* visual column: 4 division tiles */}
-        <div className="relative max-lg:hidden">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.35, ease: [0.21, 0.65, 0.36, 1] }}
-            className="grid grid-cols-2 gap-5"
-          >
-            {divisionCards.map((d, i) => (
-              <motion.div
-                key={d.labelKey}
-                animate={{ y: [0, i % 2 === 0 ? -10 : 10, 0] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 5 + i,
-                  ease: "easeInOut",
-                  delay: i * 0.4,
-                }}
-                className={`rounded-2xl border border-white/12 bg-white/[0.06] p-7 backdrop-blur-md ${
-                  i % 2 === 1 ? "translate-y-8" : ""
-                }`}
-              >
-                <span className="icon-badge mb-5 h-14 w-14">
-                  <d.icon size={26} />
-                </span>
-                <div className="text-lg font-extrabold text-white" dir="ltr">
-                  {t(`tiles.${d.labelKey}.name`)}
-                </div>
-                <div className="mt-1 text-sm font-medium text-gold-300">
-                  {t(`tiles.${d.labelKey}.tagline`)}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-          {/* soft glow behind tiles */}
-          <div className="absolute -inset-10 -z-0 rounded-full bg-gold-500/10 blur-3xl" />
         </div>
-      </div>
+
+        {/* scroll indicator */}
+        <motion.a
+          href="#divisions"
+          aria-label={t("scroll")}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.6, duration: 0.8 }}
+          className="absolute inset-x-0 -bottom-8 mx-auto flex w-max flex-col items-center gap-2.5 sm:bottom-2"
+        >
+          <span className="scroll-indicator">
+            <span />
+          </span>
+        </motion.a>
+      </motion.div>
     </section>
   );
 }

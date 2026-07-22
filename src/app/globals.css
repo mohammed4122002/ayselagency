@@ -1,25 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  /* Bawader-style palette: light surfaces, deep navy bands, muted gold */
+  /* ===== Design tokens =====
+     Navy (primary) / darker navy (gradients) / gold (accent) /
+     light gold (hover) / warm gray (secondary text) / soft ivory (light sections) */
   --color-navy-950: #081e38;
   --color-navy-900: #0a2440;
   --color-navy-800: #0d2c4f;
   --color-navy-700: #123a66;
   --color-navy-600: #1b4a80;
   --color-navy-500: #2a5d99;
-  --color-gold-100: #f7f1e3;
-  --color-gold-200: #ecdfc0;
-  --color-gold-300: #d9bd7c;
-  --color-gold-400: #cdab5c;
+  --color-gold-100: #f8f2e3;
+  --color-gold-200: #eee0bd;
+  --color-gold-300: #ddc084;
+  --color-gold-400: #d1af63;
   --color-gold-500: #be9a44;
   --color-gold-600: #a8863a;
   --color-gold-700: #8c6f2f;
   --color-ink: #0f2b4c;
-  --color-body: #5b6b7f;
-  --color-muted: #8494a7;
-  --color-line: #e6ebf2;
-  --color-soft: #f6f8fb;
+  --color-body: #5f6b7a;
+  --color-muted: #8b95a3;
+  --color-line: #e8e6df;
+  --color-soft: #faf8f3; /* soft ivory */
   --font-ar: "Tajawal", ui-sans-serif, system-ui, sans-serif;
   --font-en: "Outfit Variable", ui-sans-serif, system-ui, sans-serif;
 }
@@ -33,6 +35,7 @@ body {
   background: #ffffff;
   color: var(--color-ink);
   overflow-x: clip;
+  font-size: 17px;
 }
 
 html[lang="ar"] body {
@@ -43,6 +46,14 @@ html[lang="en"] body {
   font-family: var(--font-en);
 }
 
+/* generous Arabic line-height */
+html[lang="ar"] p {
+  line-height: 1.85;
+}
+html[lang="en"] p {
+  line-height: 1.7;
+}
+
 ::selection {
   background: color-mix(in srgb, var(--color-gold-500) 30%, transparent);
 }
@@ -51,17 +62,17 @@ html[lang="en"] body {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #eef2f7;
+  background: #f1efe9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c4cfdd;
+  background: #c9c5ba;
   border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-gold-500);
 }
 
-/* ---------- navy band with diagonal geometric texture (hero / footer / CTA) ---------- */
+/* ===== navy band with diagonal geometric texture ===== */
 
 .navy-band {
   position: relative;
@@ -99,24 +110,37 @@ html[lang="en"] body {
   z-index: 1;
 }
 
-/* ---------- buttons ---------- */
+/* ===== buttons (pill radius, layered glow) ===== */
 
 .gold-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 9999px;
+  border-radius: 999px;
   background: linear-gradient(115deg, var(--color-gold-400), var(--color-gold-500) 55%, var(--color-gold-600));
   color: #fff;
   font-weight: 700;
   transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
-  box-shadow: 0 10px 24px -10px rgba(190, 154, 68, 0.55);
+  box-shadow:
+    0 1px 2px rgba(140, 111, 47, 0.3),
+    0 10px 24px -10px rgba(190, 154, 68, 0.55);
 }
 .gold-btn:hover {
   transform: translateY(-2px);
-  filter: brightness(1.05);
-  box-shadow: 0 16px 32px -10px rgba(190, 154, 68, 0.6);
+  filter: brightness(1.06);
+  box-shadow:
+    0 1px 2px rgba(140, 111, 47, 0.3),
+    0 18px 36px -12px rgba(190, 154, 68, 0.65);
+}
+.gold-btn:hover .btn-arrow {
+  transform: translateX(-4px);
+}
+[dir="ltr"] .gold-btn:hover .btn-arrow {
+  transform: translateX(4px);
+}
+.btn-arrow {
+  transition: transform 0.3s ease;
 }
 
 .ghost-btn {
@@ -124,7 +148,7 @@ html[lang="en"] body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 9999px;
+  border-radius: 999px;
   border: 1.5px solid var(--color-gold-500);
   color: var(--color-gold-600);
   background: transparent;
@@ -137,13 +161,12 @@ html[lang="en"] body {
   transform: translateY(-2px);
 }
 
-/* outline button for use on navy bands */
 .light-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 9999px;
+  border-radius: 999px;
   border: 1.5px solid rgba(255, 255, 255, 0.55);
   color: #fff;
   font-weight: 600;
@@ -155,39 +178,54 @@ html[lang="en"] body {
   transform: translateY(-2px);
 }
 
-/* ---------- cards ---------- */
+/* ===== cards: 12px radius, soft layered shadows ===== */
 
 .card {
   background: #fff;
   border: 1px solid var(--color-line);
-  border-radius: 1.25rem;
-  box-shadow: 0 6px 24px -12px rgba(15, 43, 76, 0.08);
-  transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
+  border-radius: 12px;
+  box-shadow:
+    0 1px 2px rgba(15, 43, 76, 0.04),
+    0 4px 12px -4px rgba(15, 43, 76, 0.06),
+    0 12px 32px -16px rgba(15, 43, 76, 0.08);
+  transition: box-shadow 0.4s ease, transform 0.4s ease, border-color 0.4s ease;
 }
 .card:hover {
   border-color: var(--color-gold-300);
-  box-shadow: 0 20px 44px -16px rgba(15, 43, 76, 0.16);
-  transform: translateY(-4px);
+  transform: translateY(-5px);
+  box-shadow:
+    0 2px 4px rgba(15, 43, 76, 0.05),
+    0 12px 24px -8px rgba(15, 43, 76, 0.1),
+    0 28px 56px -20px rgba(15, 43, 76, 0.16);
+}
+.card:hover .card-img {
+  transform: scale(1.05);
+}
+.card-img {
+  transition: transform 0.7s cubic-bezier(0.21, 0.65, 0.36, 1);
 }
 
-/* kept for the admin panel (maps to a plain light card now) */
 .glass-card {
   background: #fff;
   border: 1px solid var(--color-line);
-  border-radius: 1.25rem;
-  box-shadow: 0 6px 24px -12px rgba(15, 43, 76, 0.08);
+  border-radius: 12px;
+  box-shadow:
+    0 1px 2px rgba(15, 43, 76, 0.04),
+    0 8px 24px -12px rgba(15, 43, 76, 0.08);
   transition: box-shadow 0.35s ease, border-color 0.35s ease;
 }
 .glass-card:hover {
   border-color: var(--color-gold-300);
-  box-shadow: 0 16px 36px -16px rgba(15, 43, 76, 0.14);
+  box-shadow:
+    0 2px 4px rgba(15, 43, 76, 0.05),
+    0 16px 36px -16px rgba(15, 43, 76, 0.14);
 }
 
 .icon-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.9rem;
+  border-radius: 12px;
   background: linear-gradient(135deg, var(--color-gold-400), var(--color-gold-600));
   color: #fff;
   box-shadow: 0 8px 18px -8px rgba(190, 154, 68, 0.55);
@@ -197,19 +235,39 @@ html[lang="en"] body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.9rem;
+  border-radius: 12px;
   background: linear-gradient(135deg, var(--color-navy-700), var(--color-navy-900));
   color: #fff;
   box-shadow: 0 8px 18px -8px rgba(13, 44, 79, 0.45);
 }
 
-/* ---------- section label pill ---------- */
+/* ===== photo overlay: unifies all photography with a navy wash ===== */
+
+.img-frame {
+  position: relative;
+  overflow: hidden;
+}
+.img-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(10, 36, 64, 0.08) 0%, rgba(10, 36, 64, 0.42) 100%);
+}
+.img-frame > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===== section label pills ===== */
 
 .section-label {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  border-radius: 9999px;
+  border-radius: 999px;
   border: 1px solid var(--color-gold-300);
   background: var(--color-gold-100);
   color: var(--color-gold-600);
@@ -223,7 +281,7 @@ html[lang="en"] body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  border-radius: 9999px;
+  border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.35);
   background: rgba(255, 255, 255, 0.08);
   color: var(--color-gold-300);
@@ -239,7 +297,7 @@ html[lang="en"] body {
   color: transparent;
 }
 
-/* ---------- marquee ---------- */
+/* ===== marquee ===== */
 
 @keyframes marquee-rtl {
   from { transform: translateX(0); }
@@ -268,8 +326,32 @@ html[lang="en"] body {
   background-repeat: repeat-x;
 }
 
+/* scroll indicator */
+@keyframes scroll-dot {
+  0% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(14px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+.scroll-indicator {
+  width: 26px;
+  height: 42px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  display: flex;
+  justify-content: center;
+  padding-top: 7px;
+}
+.scroll-indicator span {
+  width: 4px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-gold-400);
+  animation: scroll-dot 1.8s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track {
+  .marquee-track,
+  .scroll-indicator span {
     animation: none;
   }
   html {

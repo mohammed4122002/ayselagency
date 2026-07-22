@@ -45,6 +45,7 @@ export type Testimonial = {
   role_en: string;
   text_ar: string;
   text_en: string;
+  avatar_url?: string;
   sort_order: number;
   published: boolean;
 };

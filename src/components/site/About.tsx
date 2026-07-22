@@ -1,11 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Gem, Handshake, Lightbulb, Rocket, type LucideIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { Award, Gem, Handshake, Lightbulb, Rocket, type LucideIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import Reveal from "@/components/ui/Reveal";
+import { IMAGES } from "@/lib/images";
 
-// Bawader-style 3-card feature row: the middle card is highlighted navy
 const features: { key: string; icon: LucideIcon }[] = [
   { key: "speed", icon: Rocket },
   { key: "quality", icon: Gem },
@@ -14,28 +14,73 @@ const features: { key: string; icon: LucideIcon }[] = [
 
 export default function About() {
   const t = useTranslations("about");
+  const locale = useLocale();
 
   return (
-    <section id="about" className="scroll-mt-24 bg-soft py-20 sm:py-28">
+    <section id="about" className="scroll-mt-24 bg-soft py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid items-center gap-14 lg:grid-cols-2">
-          <div>
+          {/* photo collage */}
+          <Reveal className="relative">
+            <div className="img-frame relative aspect-[4/3] rounded-xl shadow-xl shadow-navy-900/10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={IMAGES.aboutMain}
+                alt={
+                  locale === "ar"
+                    ? "فريق Aysel Agency يتعاون على مشروع"
+                    : "Aysel Agency team collaborating on a project"
+                }
+                loading="lazy"
+                className="rounded-xl"
+              />
+            </div>
+            {/* small overlapping photo */}
+            <div className="img-frame absolute -bottom-8 hidden w-52 rounded-xl border-4 border-white shadow-xl sm:block ltr:-right-6 rtl:-left-6">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={IMAGES.aboutSmall}
+                alt={
+                  locale === "ar"
+                    ? "اجتماع عمل في مكتب Aysel Agency"
+                    : "Business meeting at Aysel Agency office"
+                }
+                loading="lazy"
+                className="aspect-[4/3] rounded-lg"
+              />
+            </div>
+            {/* experience badge */}
+            <motion.div
+              initial={{ scale: 0, rotate: -8 }}
+              whileInView={{ scale: 1, rotate: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 220, damping: 16, delay: 0.3 }}
+              className="absolute -top-6 flex h-24 w-24 flex-col items-center justify-center rounded-full bg-gradient-to-br from-gold-400 to-gold-600 text-white shadow-lg shadow-gold-500/40 ltr:-left-4 rtl:-right-4"
+            >
+              <Award size={22} />
+              <span className="mt-1 text-[11px] font-extrabold leading-tight text-center">
+                {t("badge")}
+              </span>
+            </motion.div>
+          </Reveal>
+
+          <div className="max-sm:mt-2 sm:mt-6 lg:mt-0">
             <Reveal>
               <span className="section-label">{t("label")}</span>
             </Reveal>
             <Reveal delay={0.1}>
-              <h2 className="mt-5 text-3xl font-extrabold leading-tight text-ink sm:text-4xl">
+              <h2 className="mt-5 text-[2rem] font-bold leading-tight text-ink sm:text-[2.5rem]">
                 {t("title")}
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="mt-6 leading-relaxed text-body sm:text-lg">{t("p1")}</p>
+              <p className="mt-6 text-[17px] leading-relaxed text-body sm:text-lg">{t("p1")}</p>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="mt-4 leading-relaxed text-body sm:text-lg">{t("p2")}</p>
+              <p className="mt-4 text-[17px] leading-relaxed text-body sm:text-lg">{t("p2")}</p>
             </Reveal>
             <Reveal delay={0.4}>
-              <div className="mt-8 flex items-center gap-4 rounded-2xl border border-gold-300 bg-gold-100 p-5">
+              <div className="mt-8 flex items-center gap-4 rounded-xl border border-gold-300 bg-gold-100 p-5">
                 <span className="icon-badge h-12 w-12 shrink-0">
                   <Lightbulb size={22} />
                 </span>
@@ -44,41 +89,35 @@ export default function About() {
                 </p>
               </div>
             </Reveal>
-          </div>
-
-          {/* mission card */}
-          <Reveal delay={0.2}>
-            <div className="navy-band rounded-3xl p-10 sm:p-12">
-              <h3 className="text-2xl font-extrabold text-white">{t("missionTitle")}</h3>
-              <p className="mt-4 leading-relaxed text-white/75">{t("mission")}</p>
-              <div className="mt-8 grid grid-cols-2 gap-4">
+            <Reveal delay={0.5}>
+              <div className="mt-6 grid grid-cols-2 gap-3">
                 {["v1", "v2", "v3", "v4"].map((k) => (
                   <div
                     key={k}
-                    className="rounded-xl border border-white/12 bg-white/[0.06] px-4 py-3 text-sm font-semibold text-white/90"
+                    className="rounded-xl border border-line bg-white px-4 py-3 text-sm font-bold text-ink"
                   >
                     {t(`values.${k}`)}
                   </div>
                 ))}
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </div>
 
-        {/* feature cards row — middle card highlighted navy like Bawader */}
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
+        {/* feature cards row — middle card highlighted navy */}
+        <div className="mt-20 grid gap-6 md:grid-cols-3">
           {features.map((f, i) => {
             const highlighted = i === 1;
             return (
               <motion.div
                 key={f.key}
-                initial={{ opacity: 0, y: 32 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, delay: i * 0.12, ease: [0.21, 0.65, 0.36, 1] }}
                 className={
                   highlighted
-                    ? "navy-band rounded-2xl p-8 text-center shadow-xl shadow-navy-900/15"
+                    ? "navy-band rounded-xl p-8 text-center shadow-xl shadow-navy-900/15"
                     : "card p-8 text-center"
                 }
               >
@@ -87,7 +126,7 @@ export default function About() {
                 >
                   <f.icon size={24} />
                 </span>
-                <h3 className={`mb-2.5 text-lg font-extrabold ${highlighted ? "text-white" : "text-ink"}`}>
+                <h3 className={`mb-2.5 text-lg font-bold ${highlighted ? "text-white" : "text-ink"}`}>
                   {t(`features.${f.key}.title`)}
                 </h3>
                 <p className={`text-sm leading-relaxed ${highlighted ? "text-white/75" : "text-body"}`}>

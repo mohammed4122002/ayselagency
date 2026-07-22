@@ -16,7 +16,7 @@ export default function Process() {
   const t = useTranslations("process");
 
   return (
-    <section id="process" className="scroll-mt-24 bg-soft py-20 sm:py-28">
+    <section id="process" className="scroll-mt-24 bg-soft py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading label={t("label")} title={t("title")} subtitle={t("subtitle")} />
 

@@ -23,7 +23,7 @@ export default function Testimonials({ items }: { items: Testimonial[] }) {
   const current = items[index];
 
   return (
-    <section className="bg-white py-20 sm:py-28">
+    <section className="bg-white py-16 sm:py-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <SectionHeading label={t("label")} title={t("title")} />
 
@@ -49,9 +49,19 @@ export default function Testimonials({ items }: { items: Testimonial[] }) {
                 “{loc(current, "text", locale)}”
               </blockquote>
               <figcaption className="mt-8 flex items-center justify-center gap-4">
-                <span className="flex h-13 w-13 items-center justify-center rounded-full bg-navy-800 text-lg font-extrabold text-gold-300">
-                  {loc(current, "name", locale).charAt(0)}
-                </span>
+                {current.avatar_url ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={current.avatar_url}
+                    alt={loc(current, "name", locale)}
+                    loading="lazy"
+                    className="h-14 w-14 rounded-full border-2 border-gold-300 object-cover shadow-md"
+                  />
+                ) : (
+                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-navy-800 text-lg font-extrabold text-gold-300">
+                    {loc(current, "name", locale).charAt(0)}
+                  </span>
+                )}
                 <span className="text-start">
                   <span className="block font-extrabold text-ink">
                     {loc(current, "name", locale)}

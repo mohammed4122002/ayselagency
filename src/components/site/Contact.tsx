@@ -18,6 +18,7 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { IMAGES } from "@/lib/images";
 import { getSupabaseBrowser } from "@/lib/supabase/client";
 import type { Division, Locale, SiteSettings } from "@/lib/types";
 import { loc } from "@/lib/types";
@@ -128,9 +129,26 @@ export default function Contact({
 
   return (
     <>
-      {/* CTA navy band — Bawader "لم تجد ما تبحث عنه؟" style */}
-      <section className="navy-band py-16 sm:py-20">
-        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+      {/* CTA band — city photo with navy overlay */}
+      <section className="relative overflow-hidden py-16 sm:py-24">
+        <div className="absolute inset-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={IMAGES.ctaBg}
+            alt={locale === "ar" ? "مدينة ليلاً" : "City at night"}
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-navy-900/92 via-navy-800/88 to-navy-950/94" />
+          <div
+            className="absolute inset-0 opacity-60"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0 1.5px, transparent 1.5px 80px)",
+            }}
+          />
+        </div>
+        <div className="relative z-10 mx-auto max-w-3xl px-4 text-center sm:px-6">
           <Reveal>
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">{tc("title")}</h2>
           </Reveal>
@@ -142,12 +160,13 @@ export default function Contact({
           <Reveal delay={0.22}>
             <a href="#contact" className="gold-btn mt-8 px-9 py-4 text-base">
               {tc("button")}
+              <span className="btn-arrow rtl:-scale-x-100">→</span>
             </a>
           </Reveal>
         </div>
       </section>
 
-      <section id="contact" className="scroll-mt-24 bg-white py-20 sm:py-28">
+      <section id="contact" className="scroll-mt-24 bg-white py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading label={t("label")} title={t("title")} subtitle={t("subtitle")} />
 

@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, ArrowUpRight, ImageIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { portfolioImage } from "@/lib/images";
 import type { Locale, Project } from "@/lib/types";
 import { loc } from "@/lib/types";
 
@@ -29,7 +29,7 @@ export default function Portfolio({
   );
 
   return (
-    <section id="portfolio" className="scroll-mt-24 bg-white py-20 sm:py-28">
+    <section id="portfolio" className="scroll-mt-24 bg-white py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading label={t("label")} title={t("title")} subtitle={t("subtitle")} />
 
@@ -72,23 +72,15 @@ export default function Portfolio({
                 transition={{ duration: 0.45, ease: [0.21, 0.65, 0.36, 1] }}
                 className="card group overflow-hidden"
               >
-                <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-xl bg-soft">
-                  {p.image_url ? (
-                    <Image
-                      src={p.image_url}
-                      alt={loc(p, "title", locale)}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-108"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center bg-gradient-to-br from-soft to-gold-100">
-                      <span className="icon-badge h-16 w-16 opacity-80">
-                        <ImageIcon size={28} />
-                      </span>
-                    </div>
-                  )}
-                  <span className="absolute top-3 start-3 rounded-full bg-navy-800/90 px-3 py-1 text-xs font-bold text-white backdrop-blur">
+                <div className="img-frame relative m-4 aspect-[4/3] rounded-lg bg-soft">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={portfolioImage(p.category, p.image_url)}
+                    alt={loc(p, "title", locale)}
+                    loading="lazy"
+                    className="card-img rounded-lg"
+                  />
+                  <span className="absolute top-3 start-3 z-10 rounded-full bg-navy-800/90 px-3 py-1 text-xs font-bold text-white backdrop-blur">
                     {t(`categories.${p.category}`)}
                   </span>
                 </div>

@@ -188,6 +188,7 @@ export const fallbackProjects: Project[] = [
 export const fallbackTestimonials: Testimonial[] = [
   {
     id: "s1",
+    avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80&auto=format&fit=crop",
     name_ar: "أحمد الخالدي",
     name_en: "Ahmed Al-Khalidi",
     role_ar: "مدير تنفيذي",
@@ -201,6 +202,7 @@ export const fallbackTestimonials: Testimonial[] = [
   },
   {
     id: "s2",
+    avatar_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&q=80&auto=format&fit=crop",
     name_ar: "سارة المهندس",
     name_en: "Sara Almohandes",
     role_ar: "مديرة تسويق",
@@ -214,6 +216,7 @@ export const fallbackTestimonials: Testimonial[] = [
   },
   {
     id: "s3",
+    avatar_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&q=80&auto=format&fit=crop",
     name_ar: "محمد العتيبي",
     name_en: "Mohammed Alotaibi",
     role_ar: "مؤسس متجر إلكتروني",

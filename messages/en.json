@@ -19,7 +19,8 @@
     "stats": {
       "projects": "Projects Delivered",
       "clients": "Happy Clients",
-      "years": "Years of Experience"
+      "years": "Years of Experience",
+      "satisfaction": "Client Satisfaction"
     },
     "tiles": {
       "tech": { "name": "Aysel Tech", "tagline": "Software Services" },
@@ -36,6 +37,7 @@
   },
   "about": {
     "label": "About Us",
+    "badge": "5+ Years Experience",
     "title": "Your Digital Growth Partner",
     "p1": "Aysel Agency is a full-service digital agency serving clients worldwide. We bring development, design, marketing and AI together under one roof — so we can be the only partner your brand needs.",
     "p2": "We believe digital success is never built on a single service, but on an integrated system working in harmony. That is why we built four divisions covering your journey from the first line of code to the last ad campaign.",
