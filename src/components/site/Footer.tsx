@@ -1,0 +1,93 @@
+import { getTranslations } from "next-intl/server";
+import Logo from "./Logo";
+import SocialLinks from "./SocialLinks";
+import type { Division, Locale, SiteSettings } from "@/lib/types";
+import { loc } from "@/lib/types";
+
+export default async function Footer({
+  divisions,
+  settings,
+  locale,
+}: {
+  divisions: Division[];
+  settings: SiteSettings;
+  locale: Locale;
+}) {
+  const t = await getTranslations("footer");
+  const tn = await getTranslations("nav");
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="border-t border-white/5 bg-navy-900/70">
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <Logo />
+          <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted">
+            {t("tagline")}
+          </p>
+          <div className="mt-6">
+            <SocialLinks social={settings.social} />
+          </div>
+        </div>
+
+        <div>
+          <h3 className="mb-5 font-bold text-gold-300">{t("quickLinks")}</h3>
+          <ul className="space-y-3 text-sm text-muted">
+            {(
+              [
+                ["#divisions", tn("divisions")],
+                ["#about", tn("about")],
+                ["#portfolio", tn("portfolio")],
+                ["#process", tn("process")],
+                ["#contact", tn("contact")],
+              ] as const
+            ).map(([href, label]) => (
+              <li key={href}>
+                <a href={href} className="transition-colors hover:text-gold-300">
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="mb-5 font-bold text-gold-300">{t("divisions")}</h3>
+          <ul className="space-y-3 text-sm text-muted">
+            {divisions.map((d) => (
+              <li key={d.id}>
+                <a href="#divisions" className="transition-colors hover:text-gold-300">
+                  {loc(d, "name", locale)} — {loc(d, "tagline", locale)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="mb-5 font-bold text-gold-300">{t("contact")}</h3>
+          <ul className="space-y-3 text-sm text-muted">
+            <li>
+              <a
+                href={`mailto:${settings.contact.email}`}
+                dir="ltr"
+                className="transition-colors hover:text-gold-300"
+              >
+                {settings.contact.email}
+              </a>
+            </li>
+            <li>
+              {locale === "ar"
+                ? settings.contact.address_ar
+                : settings.contact.address_en}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="border-t border-white/5 py-6 text-center text-xs text-muted">
+        © {year} Aysel Agency. {t("rights")}
+      </div>
+    </footer>
+  );
+}

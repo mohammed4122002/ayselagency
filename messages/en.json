@@ -1,0 +1,112 @@
+{
+  "nav": {
+    "home": "Home",
+    "divisions": "Divisions",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "process": "Process",
+    "contact": "Contact",
+    "getStarted": "Start Your Project"
+  },
+  "hero": {
+    "badge": "Full-Service Digital Agency",
+    "title1": "We Craft Your Digital Presence",
+    "title2": "From Idea to the Top",
+    "subtitle": "Aysel Group — an integrated ecosystem for your business. Four specialized divisions working in harmony to deliver a complete digital experience: development, design, marketing and AI.",
+    "cta": "Start Your Project",
+    "cta2": "Explore Our Services",
+    "scroll": "Discover More"
+  },
+  "divisions": {
+    "label": "Our Four Divisions",
+    "title": "An Integrated Ecosystem for Your Business",
+    "subtitle": "Four specialized divisions working in harmony to deliver a complete digital experience — from code to design, marketing and AI.",
+    "explore": "Explore"
+  },
+  "about": {
+    "label": "About Us",
+    "title": "Your Digital Growth Partner",
+    "p1": "Aysel Agency is a full-service digital agency serving clients worldwide. We bring development, design, marketing and AI together under one roof — so we can be the only partner your brand needs.",
+    "p2": "We believe digital success is never built on a single service, but on an integrated system working in harmony. That is why we built four divisions covering your journey from the first line of code to the last ad campaign.",
+    "features": {
+      "quality": { "title": "Uncompromising Quality", "desc": "World-class standards in every delivery, from design to code" },
+      "speed": { "title": "Fast Execution", "desc": "Full commitment to deadlines without sacrificing quality" },
+      "partner": { "title": "True Partnership", "desc": "We work as an extension of your team — your success is our metric" },
+      "innovation": { "title": "Continuous Innovation", "desc": "We adopt the latest technologies and put them to work for your goals" }
+    }
+  },
+  "stats": {
+    "label": "Our Numbers Speak",
+    "years": "Years of Experience",
+    "projects": "Projects Delivered",
+    "clients": "Happy Clients",
+    "team": "Specialists"
+  },
+  "portfolio": {
+    "label": "Our Work",
+    "title": "Projects We Are Proud Of",
+    "subtitle": "A selection of our work across design, development, marketing and AI.",
+    "all": "All",
+    "categories": {
+      "branding": "Branding",
+      "social": "Social Media",
+      "web": "Web & Apps",
+      "motion": "Motion Graphics",
+      "ai": "AI"
+    },
+    "viewBehance": "See more on Behance"
+  },
+  "process": {
+    "label": "Our Process",
+    "title": "How We Work",
+    "subtitle": "A clear methodology that takes your project to the finish line.",
+    "steps": {
+      "s1": { "title": "Discovery & Analysis", "desc": "We listen to your goals and study the market and competitors to deeply understand your project." },
+      "s2": { "title": "Strategy & Planning", "desc": "We build a clear roadmap with measurable goals and a defined timeline." },
+      "s3": { "title": "Design & Execution", "desc": "Our specialized teams turn the plan into reality with the highest quality standards." },
+      "s4": { "title": "Launch & Growth", "desc": "We launch your project and keep monitoring and optimizing for the best results." }
+    }
+  },
+  "testimonials": {
+    "label": "Testimonials",
+    "title": "What Our Clients Say"
+  },
+  "cta": {
+    "title": "Ready to Start Your Next Project?",
+    "subtitle": "Let us turn your idea into a digital success story. Contact us today for a free consultation.",
+    "button": "Get a Free Consultation"
+  },
+  "contact": {
+    "label": "Contact Us",
+    "title": "Let's Start the Conversation",
+    "subtitle": "Tell us about your project and we will get back to you within 24 hours.",
+    "form": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number (optional)",
+      "service": "Service Needed",
+      "servicePlaceholder": "Select a service",
+      "message": "Tell us about your project",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": "Your message has been sent! We will get back to you soon.",
+      "error": "Something went wrong. Please try again or email us directly."
+    },
+    "info": {
+      "email": "Email",
+      "location": "Location",
+      "follow": "Follow Us"
+    }
+  },
+  "footer": {
+    "tagline": "An integrated digital ecosystem — development, design, marketing and AI.",
+    "quickLinks": "Quick Links",
+    "divisions": "Divisions",
+    "contact": "Contact",
+    "rights": "All rights reserved"
+  },
+  "meta": {
+    "title": "Aysel Agency — Full-Service Digital Agency | Development, Design, Marketing & AI",
+    "description": "Aysel Group — an integrated ecosystem for your business: web & app development, brand identity design, digital marketing and AI solutions. Serving clients worldwide."
+  }
+}
